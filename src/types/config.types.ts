@@ -1,0 +1,533 @@
+import type { ActivityAction } from "@/enums/utils";
+
+export interface Response<T> {
+    message: string;
+    success: boolean;
+    data: T;
+}
+
+export interface ResponseWithPagination<T> {
+    message: string;
+    success: boolean;
+    data: {
+        result: T;
+        pagination: {
+            currentPage: number;
+            pageSize: number;
+            totalCount: number;
+            totalPages: number;
+        };
+    };
+}
+
+export interface Pagination {
+    page: number;
+    pageSize: number;
+    isPaginationEnabled: boolean;
+    keyword?: string;
+}
+
+export interface IPaginationWithActive extends Pagination {
+    isActive: boolean;
+}
+
+export interface IPaginationWithTaskStatusByFeatureId extends Pagination {
+    featureId: number;
+}
+
+export interface IProjectPagination extends Pagination {
+    status?: string[] | undefined;
+    priority?: string[] | undefined;
+}
+
+export interface IProjectTaskPagination extends Pagination {
+    priority?: string[] | undefined;
+    labels?: string[] | undefined;
+    assignedTo?: string[] | undefined;
+    projectId: number;
+}
+
+export interface ITaskPagination extends Pagination {
+    priority?: string[] | undefined;
+    labels?: string[] | undefined;
+    assignedTo?: string[] | undefined;
+    projectId?: number | undefined;
+    featureId?: number | undefined;
+    sprintId: number;
+}
+
+export interface SprintPagination extends Pagination {
+    isActive: boolean;
+}
+
+export interface EmployeePagination extends Pagination {
+    isActive: boolean;
+}
+
+export interface IUser {
+    id: number;
+    firstName: string;
+    lastName: string;
+    username: string;
+    cognitoId: string;
+    profilePictureUrl: string | null;
+}
+
+export interface IProject {
+    id: number;
+    name: string;
+    description: string;
+    startDate: Date;
+    endDate: Date;
+    admin: IUser;
+    teamMember: IUser[];
+    tasks: ITask[];
+    status: ProjectStatus;
+    priority: Priority;
+    projectUploads: IUploadFile[];
+}
+
+export interface ITask {
+    id: number;
+    title: string;
+    description: string;
+    addedDate: Date;
+    addedBy: IUser;
+    assignedTo: IUser;
+    projectId: IProject;
+    status: TaskStatus;
+    taskLabel: ILabelResponse;
+    sprint: ISprintResponse;
+    taskNumber: string;
+    priority: Priority;
+    taskUploads: IUploadFile[];
+    task_status: ITaskStatusResponse;
+}
+
+export interface ITaskPayload {
+    title: string;
+    description: string;
+    priority: Priority;
+    assignTo: number;
+    assignedBy: number;
+    addedBy: number;
+    addedDate: Date;
+    status: TaskStatus;
+    project: number;
+    taskLabel?: number;
+    taskUploads: string[];
+    featureId: number;
+    sprint: number;
+}
+
+export interface IAddProjectPayload {
+    name: string;
+    description: string;
+    priority: Priority;
+    admin: number;
+    startDate: string;
+    endDate: string;
+    teamMember: number[];
+    status: ProjectStatus;
+    projectUploads: string[];
+}
+export interface IUpdateProjectPayload extends IAddProjectPayload {
+    projectId: number;
+    updatedProjectUploads: string[];
+}
+
+export interface IFileUploadsPayload {
+    formData: FormData;
+}
+
+export interface IUploadFile {
+    id: string;
+    filename: string;
+    originalname: string;
+    size: number;
+    extension: string;
+    mimetype?: string;
+    fileType?: string;
+    cloudPath?: string;
+    cloudId?: string;
+    cloudUrl?: string;
+    createdBy: IUser; // Or use a custom IUser interface if you have one
+    createdAt: Date;
+    updatedAt: Date;
+    backendUrl: string;
+}
+
+export type TaskStatus =
+    | "TODO"
+    | "IN_PROGRESS"
+    | "COMPLETED"
+    | "FOR_FIX"
+    | "UNDER_REVIEW";
+
+export type ProjectStatus =
+    | "TODO"
+    | "STARTED"
+    | "IN_PROGRESS"
+    | "COMPLETED"
+    | "UNDER_REVIEW"
+    | "BACKLOG";
+
+export type Priority = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | "BACKLOG";
+
+export interface IPriorityOptions {
+    value: Priority;
+    label: string;
+    id: string;
+}
+export const priorityOptions: IPriorityOptions[] = [
+    { id: "LOW", value: "LOW", label: "Low" },
+    { id: "MEDIUM", value: "MEDIUM", label: "Medium" },
+    { id: "HIGH", value: "HIGH", label: "High" },
+    { id: "CRITICAL", value: "CRITICAL", label: "Critical" },
+    { id: "BACKLOG", value: "BACKLOG", label: "Backlog" },
+];
+
+export interface IRoleOptions {
+    value: string;
+    label: string;
+    id: string;
+}
+export const roleOptions: IRoleOptions[] = [
+    { id: "EMPLOYEE", value: "EMPLOYEE", label: "Employee" },
+    { id: "ADMIN", value: "ADMIN", label: "Admin" },
+];
+
+export interface IStatusOptions {
+    value: TaskStatus;
+    label: string;
+}
+
+export interface IProjectStatusOptions {
+    value: ProjectStatus;
+    label: string;
+    id: ProjectStatus;
+}
+
+export const projectStatusOptions: IProjectStatusOptions[] = [
+    { id: "STARTED", value: "STARTED", label: "Start" },
+    { id: "TODO", value: "TODO", label: "To Do" },
+    { id: "IN_PROGRESS", value: "IN_PROGRESS", label: "In Progress" },
+    { id: "UNDER_REVIEW", value: "UNDER_REVIEW", label: "Under Review" },
+    { id: "COMPLETED", value: "COMPLETED", label: "Completed" },
+    { id: "BACKLOG", value: "BACKLOG", label: "Backlog" },
+];
+
+export interface ISprintPayload {
+    name: string;
+    goal?: string;
+    startDate: string;
+    endDate: string;
+}
+
+export interface IEmployeePayload {
+    firstName: string;
+    lastName: string;
+    email: string;
+    mobileNumber: string;
+    role: number;
+    internalCompany: number[];
+}
+
+export interface IEmployeeUpdatePayload extends IEmployeePayload {
+    id: number;
+}
+
+export interface IVerifyPayload {
+    password: string;
+    token: string;
+    id: number;
+}
+
+export interface IEmployeeResponse {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    emailVerified: boolean;
+    mobileNumber: string;
+    roleId: number;
+    employeeId: string;
+    department: string | null;
+    createdAt: string;
+    profilePictureUrl: string | null;
+    isActive: boolean;
+}
+
+export interface ISprintResponse extends ISprintPayload {
+    id: number;
+    addedBy: number | IUser;
+    isActive: boolean;
+}
+
+export interface ISprintUpdatePayload extends ISprintPayload {
+    id: number;
+}
+
+export interface ILabelPayload {
+    name: string;
+    description?: string;
+    colorCode: string;
+    isActive: boolean;
+}
+
+export interface ILabelUpdatePayload extends Partial<ILabelPayload> {
+    id: number;
+}
+
+export interface ILabelResponse {
+    id: number;
+    name: string;
+    description?: string;
+    isActive: boolean;
+    addedAt: string;
+    addedBy: IEmployeeResponse;
+    colorCode: string;
+}
+
+export interface LabelPagination {
+    isPaginationEnabled?: boolean;
+    page?: number;
+    pageSize?: number;
+    keyword?: string;
+    isActive?: boolean;
+}
+
+// types.ts
+
+export interface IComment {
+    id: number;
+    content: string;
+    isActive: boolean;
+    addedAt: string;
+    addedBy: IUser;
+    task: number;
+}
+
+export interface ICommentPayload {
+    content: string;
+    task: number;
+    addedBy: number;
+}
+
+export interface ICommentUpdatePayload {
+    content: string;
+}
+
+export interface Response<T> {
+    success: boolean;
+    data: T;
+    message: string;
+}
+
+export type IActivityResponse = {
+    id: number;
+    action: ActivityAction;
+    details?: string;
+    comment?: string;
+    createdAt: Date;
+    activityBy: IUser;
+    task: {
+        id: number;
+        projectId: number;
+        taskNumber: string;
+        title: string;
+        assignedTo: IUser;
+    };
+};
+
+export type IMultiList = {
+    label: string;
+    value: number | string;
+    icon?: string | undefined;
+};
+
+export interface IInternalCompanyResponse {
+    id: number;
+    name: string;
+    slug: string;
+    logoUrl: string;
+    address: string;
+    contactEmail: string;
+    contactPhone: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+    projects?: IProject[];
+}
+
+export interface IInternalCompanyPayload {
+    name: string;
+    slug: string;
+    logoUrl?: string;
+    address: string;
+    contactEmail: string;
+    contactPhone: string;
+    isActive?: boolean;
+}
+
+export interface IInternalCompanyUpdatePayload extends IInternalCompanyPayload {
+    id: number;
+}
+
+export interface IAuthEmployeePayload {
+    email: string;
+    password: string;
+}
+
+export interface IRoleInfo {
+    id: number;
+    name: string;
+    isActive: boolean;
+    permissions: string[];
+}
+export interface IAuthEmployeeResponse {
+    id: number;
+    email: string;
+    type: string;
+    internalCompanies: InternalCompanyInfo[];
+    role: IRoleInfo;
+    accessToken?: string | undefined;
+    authenticated: boolean;
+}
+
+export interface InternalCompanyInfo {
+    internal_company_id: number;
+    name: string;
+    slug: string;
+    logoUrl: string;
+    isActive: boolean;
+
+    features: FeatureInfo[];
+}
+
+export interface FeatureInfo {
+    features_id: number;
+    features_name: string;
+    features_slug: string;
+    features_profilePicture: string | null;
+    features_user_id: number;
+    features_sprint_id: number | null;
+    features_sprint_name: string | null;
+}
+
+export interface ICompanyDetails {
+    id: number;
+    name: string;
+    slug: string;
+    logoUrl: string;
+    address: string;
+    contactEmail: string;
+    contactPhone: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+    projects?: IProject[];
+}
+
+export interface IPermissionGroupResponse {
+    id: number;
+    displayName: string;
+    isActive: boolean;
+    description: string;
+    permissions?: IPermissionResponse[];
+}
+
+export interface IPermissionResponse {
+    id: number;
+    displayName: string;
+    isActive: boolean;
+    description: string;
+    enumName: string;
+    permissionGroupId: number;
+}
+
+export interface IRoleResponse {
+    id: number;
+    name: string;
+    isActive: boolean;
+    description: string;
+    role_type: string;
+    permissions: IPermissionResponse[];
+}
+
+export interface IRolePayload {
+    name: string;
+    role_type: string;
+    isActive: boolean;
+    permissions: number[];
+    description: string | undefined;
+}
+
+export interface IRoleUpdatePayload extends IRolePayload {
+    id: number;
+}
+
+export interface ITaskStatusResponse {
+    id: number;
+    name: string;
+    is_active: boolean;
+    color_code: string;
+}
+
+export interface ITaskStatusPayload {
+    name: string;
+    colorCode: string;
+}
+
+export interface ITaskStatusUpdatePayload extends ITaskStatusPayload {
+    id: number;
+}
+
+export interface IFeatureResponse {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    profilePicture: string;
+    active: boolean;
+}
+
+export interface ImageResponse {
+    id: string;
+    url: string;
+    success: boolean;
+    message: string;
+}
+
+export interface IFeatureDetailsResponse extends IFeatureResponse {
+    featureTeamMember: IEmployeeResponse[];
+    admin: IEmployeeResponse;
+    profilePictureResponse: ImageResponse;
+    internalCompany: IInternalCompanyResponse;
+}
+
+export interface IFeaturePayload {
+    name: string;
+    description: string;
+    profilePicture: string;
+    active: boolean;
+    featureTeamMember: number[];
+    admin: number;
+}
+
+export interface IFeatureUpdatePayload extends IFeaturePayload {
+    id: number;
+}
+
+export interface ICustomerResponse {
+    createdAt: string; // ISO date string
+    isAccountByAdmin: boolean;
+    id: number;
+    name: string;
+    email: string;
+    mobileNumber: string;
+    CredentialType: "ADMIN" | "USER" | "SUPER_ADMIN"; // extend if needed
+    associated_internal_company_id: number;
+    profilePictureUrl: string | null;
+    emailVerified: boolean;
+}

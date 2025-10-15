@@ -1,0 +1,176 @@
+import type { Dispatch, SetStateAction } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import type { IMultiList } from "@/types/config.types";
+import { X } from "lucide-react";
+
+type Props = {
+    list: IMultiList[];
+    selectedList: IMultiList[];
+    setSelectList: Dispatch<SetStateAction<IMultiList[]>>;
+    placeholder?: string;
+    required?: boolean;
+    size?: number;
+    isDisabled?: boolean;
+};
+
+const MultiSelect = (props: Props) => {
+    const { list, selectedList, setSelectList, placeholder, isDisabled } =
+        props;
+    const [openSelect, setOpenSelect] = useState<boolean>(false);
+    // const [showList, setShowList] = useState<IList[]>([]);
+    const multiSelectRef = useRef(null);
+    console.log({
+        selectedList,
+    });
+    const handleSelect = (valueSelected: number | string) => {
+        const isItemAlreadyPresent = selectedList.find(
+            (item) => item.value === valueSelected
+        );
+
+        if (isItemAlreadyPresent) {
+            const temp = selectedList.filter(
+                (item) => item.value !== valueSelected
+            );
+            setSelectList(temp);
+        } else {
+            const temp = list.find((item) => item.value === valueSelected);
+
+            if (temp) {
+                setSelectList([...selectedList, temp]);
+            }
+        }
+    };
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                multiSelectRef.current &&
+                !multiSelectRef?.current?.contains(event.target)
+            ) {
+                setOpenSelect(false);
+            }
+        }
+
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
+    return (
+        <div ref={multiSelectRef} className='relative'>
+            <button
+                onClick={() => setOpenSelect(!openSelect)}
+                type='button'
+                disabled={isDisabled}
+                className='mb-2 w-full flex min-h-11 rounded-lg border border-gray-300 py-1.5 pl-3 pr-3 shadow-theme-xs outline-hidden transition focus:border-brand-300 focus:shadow-focus-ring dark:border-gray-700 dark:bg-gray-900 dark:focus:border-brand-300'
+            >
+                {selectedList?.length === 0 && (
+                    <span className='text-gray-500 ml-2'>
+                        {placeholder ? placeholder : "Please select"}
+                    </span>
+                )}
+
+                {selectedList?.length > 0 && (
+                    <div className='flex flex-wrap  gap-1'>
+                        {selectedList?.map((item: IMultiList) => (
+                            <div
+                                className='mr-1 flex items-center gap-1 rounded-lg  bg-gray-100 px-2 font-semibold text-gray-700'
+                                key={item.value}
+                            >
+                                <span>{item.label}</span>
+                                <span
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleSelect(item.value);
+                                    }}
+                                    className='ml-1'
+                                >
+                                    <svg
+                                        className='fill-current'
+                                        role='button'
+                                        width='14'
+                                        height='14'
+                                        viewBox='0 0 14 14'
+                                        xmlns='http://www.w3.org/2000/svg'
+                                    >
+                                        <path
+                                            fillRule='evenodd'
+                                            clipRule='evenodd'
+                                            d='M3.40717 4.46881C3.11428 4.17591 3.11428 3.70104 3.40717 3.40815C3.70006 3.11525 4.17494 3.11525 4.46783 3.40815L6.99943 5.93975L9.53095 3.40822C9.82385 3.11533 10.2987 3.11533 10.5916 3.40822C10.8845 3.70112 10.8845 4.17599 10.5916 4.46888L8.06009 7.00041L10.5916 9.53193C10.8845 9.82482 10.8845 10.2997 10.5916 10.5926C10.2987 10.8855 9.82385 10.8855 9.53095 10.5926L6.99943 8.06107L4.46783 10.5927C4.17494 10.8856 3.70006 10.8856 3.40717 10.5927C3.11428 10.2998 3.11428 9.8249 3.40717 9.53201L5.93877 7.00041L3.40717 4.46881Z'
+                                        />
+                                    </svg>
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </button>
+            <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
+                <svg
+                    className='h-4 w-4 fill-current'
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 20 20'
+                >
+                    <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
+                </svg>
+            </div>
+            <div
+                className={`${
+                    openSelect ? "block" : "hidden"
+                } multi-select-box absolute top-full z-50 mt-2 max-h-72 w-full space-y-0.5 overflow-hidden overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 [&::-webkit-scrollbar-track]:bg-gray-100 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 [&::-webkit-scrollbar]:w-2`}
+            >
+                {list.map((item: IMultiList) => (
+                    <div
+                        onClick={() => handleSelect(item.value)}
+                        key={item.value}
+                        className='selected focus:outline-hidden w-full cursor-pointer rounded-lg px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100'
+                    >
+                        <div className='flex items-center'>
+                            <div
+                                className={
+                                    selectedList.find(
+                                        (selectedItem) =>
+                                            selectedItem.value === item.value
+                                    )
+                                        ? "text-md font-semibold text-gray-800"
+                                        : "text-md text-gray-800"
+                                }
+                                data-title=''
+                            >
+                                {item.label}
+                            </div>
+                            <div className='ms-auto'>
+                                <span
+                                    className={
+                                        selectedList.find(
+                                            (selectedItem) =>
+                                                selectedItem.value ===
+                                                item.value
+                                        )
+                                            ? "block"
+                                            : "hidden"
+                                    }
+                                >
+                                    <svg
+                                        className='size-4 shrink-0 text-blue-600'
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        width='16'
+                                        height='16'
+                                        fill='currentColor'
+                                        viewBox='0 0 16 16'
+                                    >
+                                        <path d='M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z'></path>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default MultiSelect;

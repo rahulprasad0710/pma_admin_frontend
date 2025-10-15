@@ -1,0 +1,43 @@
+{
+    "compilerOptions": {
+        "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+        "target": "ES2022",
+        "useDefineForClassFields": true,
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
+        "module": "ESNext",
+        "skipLibCheck": true,
+
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "verbatimModuleSyntax": true,
+        "moduleDetection": "force",
+        "noEmit": true,
+        "jsx": "react-jsx",
+
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": false, // change to true later
+        "noUnusedParameters": false, // change to true later
+        "erasableSyntaxOnly": false,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedSideEffectImports": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"],
+            "@pages/*": ["src/pages/*"],
+            "@layout/*": ["src/layout/*"],
+            "@components/*": ["src/components/*"],
+            "@molecules/*": ["src/components/molecules/*"],
+            "@context/*": ["src/context/*"],
+            "@hooks/*": ["src/hooks/*"],
+            "@utils/*": ["src/utils/*"],
+            "@icons/*": ["src/icons/*"],
+            "@store/*": ["src/store/*"],
+            "@api/*": ["src/api/*"],
+            "@apiHooks/*": ["src/api/hooks/*"],
+            "@apiRoutes/*": ["src/api/apiRoutes/*"]
+        }
+    },
+    "include": ["src"]
+}
