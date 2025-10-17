@@ -9,6 +9,8 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getAuthToken } from "@/utils/apiFn";
 import { setAuthenticateEmployeeDetailsData } from "@/store";
 
+const baseServerUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
+
 export interface ApiErrorResponse {
     success: boolean; // false in error cases
     data: null; // always null when error
@@ -20,7 +22,7 @@ export interface ApiErrorResponse {
 
 // 1. Normal baseQuery
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api/",
+    baseUrl: `${baseServerUrl}/api/`,
     prepareHeaders: async (headers) => {
         const { accessToken } = await getAuthToken();
         if (accessToken) {

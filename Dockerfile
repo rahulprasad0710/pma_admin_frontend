@@ -1,39 +1,25 @@
-# ------------------------------
-# Stage 1: Build
-# ------------------------------
-FROM node:20-alpine AS build
+FROM node:alpine3.18 as build
 
-# Set working directory
+# Declare build time environment variables
+ARG VITE_API_BASE_SERVER_URL
+ARG VITE_REACT_APP_NODE_ENV
+
+# Set default values for environment variables
+ENV VITE_API_BASE_SERVER_URL=$VITE_API_BASE_SERVER_URL
+ENV VITE_REACT_APP_NODE_ENV=$VITE_REACT_APP_NODE_ENV
+
+
+# Build App
 WORKDIR /app
-
-# Copy package.json and package-lock.json / pnpm-lock.yaml
-COPY package*.json ./
-
-# Install dependencies
-RUN npm ci
-
-# Copy all source files
+COPY package.json .
+RUN npm install
 COPY . .
-
-# Build the Vite app
 RUN npm run build
 
-# ------------------------------
-# Stage 2: Serve with Nginx
-# ------------------------------
-FROM nginx:alpine
-
-# Copy built files from previous stage
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Remove default nginx config
-RUN rm /etc/nginx/conf.d/default.conf
-
-# Copy custom nginx config (optional)
-# COPY nginx.conf /etc/nginx/conf.d/
-
-# Expose port 80
+# Serve with Nginx
+FROM nginx:1.23-alpine
+WORKDIR /usr/share/nginx/html
+RUN rm -rf *
+COPY --from=build /app/build .
 EXPOSE 80
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]

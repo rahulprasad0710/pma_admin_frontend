@@ -1,10 +1,8 @@
-name: Deploy Node Application
-
+name: Deploy React Application
 on:
   push:
     branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,17 +12,16 @@ jobs:
       - name: Login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t rahulshah10/pma_admin_frontend  .
+        run: docker build -t rahulshah10/pma_admin_frontend_app --build-arg VITE_REACT_APP_NODE_ENV='production' --build-arg VITE_API_BASE_SERVER_URL='curl http://localhost:8000' .
       - name: Publish Image to docker hub
-        run: docker push rahulshah10/pma_admin_frontend:latest
-
+        run: docker push rahulshah10/pma_admin_frontend_app:latest
   deploy:
     needs: build
     runs-on: self-hosted
     steps:
       - name: Pull image from docker hub
-        run: docker pull rahulshah10/pma_admin_frontend:latest
+        run: docker pull rahulshah10/pma_admin_frontend_app:latest
       - name: Delete old container
-        run: docker rm -f pma_admin_frontend-container
+        run: docker rm -f pma_admin_frontend_app-container
       - name: Run Docker Container
-        run: docker run -d -p 8000:8000 --name pma_admin_frontend-container  --env-file /home/ubuntu/pma_admin_frontend/.env rahulshah10/pma_admin_frontend:latest
+        run: docker run -d -p 5173:80 --name pma_admin_frontend_app-container rahulshah10/pma_admin_frontend_app
