@@ -4,6 +4,8 @@ import Technology from "@components/home/Technology";
 import Testimonial from "@components/home/Testimonial";
 
 function HomePage() {
+    const baseServerUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
+
     return (
         <div className='bg-white-50 text-gray-800 overflow-x-hidden! dark:bg-gray-900 dark:text-gray-100'>
             <HomeNavbar />
@@ -31,6 +33,7 @@ function HomePage() {
                     <p className='mx-auto mt-2 max-w-2xl text-lg tracking-tight text-slate-700'>
                         One platform to manage tasks, collaborate, track
                         progress, and deliver on time.
+                        {baseServerUrl}
                     </p>
                     <div className='mt-10 flex justify-center gap-x-6'>
                         <a
