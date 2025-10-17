@@ -12,7 +12,7 @@ jobs:
       - name: Login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t rahulshah10/pma_admin_frontend_app --build-arg VITE_REACT_APP_NODE_ENV='production' --build-arg VITE_API_BASE_SERVER_URL='curl http://localhost:8000' .
+        run: docker build -t rahulshah10/pma_admin_frontend_app --build-arg VITE_REACT_APP_NODE_ENV='production' --build-arg VITE_API_BASE_SERVER_URL='${{secrets.VITE_API_BASE_SERVER_URL}}' .
       - name: Publish Image to docker hub
         run: docker push rahulshah10/pma_admin_frontend_app:latest
   deploy:
