@@ -20,16 +20,22 @@ const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
     useEffect(() => {
         if (!accessTokenState || !authenticateEmployee?.id) return;
 
-        const newSocket = io("http://localhost:8000", {
+        const newSocket = io("https://workcentrik.publicvm.com", {
             extraHeaders: {
                 Authorization: `Bearer ${accessTokenState}`,
                 secure: "",
             },
+            transports: ["websocket", "polling"],
+            withCredentials: true,
         });
 
         newSocket.on("connect", () => {
             console.log("Connected to socket:", newSocket.id);
         });
+
+        newSocket.on("connect_error", (error) =>
+            console.log("Connection error:", error)
+        );
 
         newSocket.on("NOTIFICATION_TO_CLIENT", (data: TNotification) => {
             console.log("LOG: ~ SocketProvider ~ data:", data);
