@@ -10,6 +10,7 @@ import RoleModal from "@/modal/RoleModal";
 import SearchBar from "@/components/molecules/SearchBar";
 import { SquarePen } from "lucide-react";
 import { createColumnHelper } from "@tanstack/react-table";
+import { humanizeEnum } from "@/utils/fns";
 import { useLazyGetAllRolesQuery } from "@api/hooks/useRoles";
 
 const Roles = () => {
@@ -63,7 +64,7 @@ const Roles = () => {
             id: "email",
             cell: (info) => (
                 <div className='font-semibold text-gray-700 dark:text-slate-100'>
-                    {info.renderValue()}
+                    {humanizeEnum(info.renderValue() ?? "")}
                 </div>
             ),
             header: () => <span>Role Type</span>,
@@ -166,7 +167,7 @@ const Roles = () => {
                 </Button>
             </div>
 
-            <div className='border-b border-gray-200 px-5 py-4 dark:border-gray-800'>
+            <div className='border-b border-gray-200 px-5 pb-4 dark:border-gray-800'>
                 <div className='flex items-center  justify-end  gap-2 md:gap-4 flex-wrap'>
                     <SearchBar
                         setKeyword={setKeyword}

@@ -12,6 +12,7 @@ import Badge from "@/components/ui/Badge";
 import ReactTable from "@/components/common/ReactTable";
 import Skeleton from "@/components/common/Skeleton";
 import { createColumnHelper } from "@tanstack/react-table";
+import { humanizeEnum } from "@/utils/fns";
 
 const Permission = () => {
     const { data: PermissionGroups } = useGetAllPermissionGroupsQuery({
@@ -119,7 +120,7 @@ const Permission = () => {
                                         }
                                         onClick={() => handleClick(index, item)}
                                     >
-                                        {item.displayName}
+                                        {humanizeEnum(item.displayName)}
                                     </button>
                                 )
                             )}
@@ -132,10 +133,10 @@ const Permission = () => {
                             <div className='flex w-full flex-col items-center gap-6 xl:flex-row'>
                                 <div className='order-3 xl:order-2'>
                                     <h4 className='mb-2 text-center text-lg font-semibold text-gray-800 xl:text-left dark:text-white/90'>
-                                        {
+                                        {humanizeEnum(
                                             permissionGroupDetails?.data
                                                 ?.displayName
-                                        }{" "}
+                                        )}{" "}
                                         Permissions
                                     </h4>
                                     <p className='text-sm text-gray-500 dark:text-gray-400'>

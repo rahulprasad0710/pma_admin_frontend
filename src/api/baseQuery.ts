@@ -9,7 +9,9 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getAuthToken } from "@/utils/apiFn";
 import { setAuthenticateEmployeeDetailsData } from "@/store";
 
-const baseServerUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
+// const baseServerUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
+
+const baseServerUrl = "http://localhost:8000";
 
 export interface ApiErrorResponse {
     success: boolean; // false in error cases
