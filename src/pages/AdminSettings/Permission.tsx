@@ -5,6 +5,7 @@ import type {
 import { useEffect, useState } from "react";
 import {
     useGetAllPermissionGroupsQuery,
+    useLazyGetAllPermissionGroupsQuery,
     useLazyGetPermissionGroupsDetailsByIdQuery,
 } from "@apiHooks/usePermission";
 
@@ -14,13 +15,53 @@ import Skeleton from "@/components/common/Skeleton";
 import { createColumnHelper } from "@tanstack/react-table";
 import { humanizeEnum } from "@/utils/fns";
 
+type IPermissionType = {
+    label: string;
+    value:
+        | "NORMAL"
+        | "NORMAL_SETTINGS"
+        | "COMPANY_SETTINGS"
+        | "SUPER_ADMIN_SETTINGS";
+};
+
 const Permission = () => {
+    const [permissionTypeState, setPermissionTypeState] = useState<
+        | "NORMAL"
+        | "NORMAL_SETTINGS"
+        | "COMPANY_SETTINGS"
+        | "SUPER_ADMIN_SETTINGS"
+    >("NORMAL");
     const { data: PermissionGroups } = useGetAllPermissionGroupsQuery({
         isPaginationEnabled: true,
         page: 1,
         pageSize: 10,
         isActive: true,
+        permissionTypes: permissionTypeState,
     });
+
+    const PermissionTypes: IPermissionType[] = [
+        {
+            label: "Normal",
+            value: "NORMAL",
+        },
+        {
+            label: "Normal Settings",
+            value: "NORMAL_SETTINGS",
+        },
+        {
+            label: "Company Settings",
+            value: "COMPANY_SETTINGS",
+        },
+        {
+            label: "Super Admin Settings",
+            value: "SUPER_ADMIN_SETTINGS",
+        },
+    ];
+
+    const [
+        fetchAllPermissionGroups,
+        { isFetching: isFetchingAll, data: allPermissionGroups },
+    ] = useLazyGetAllPermissionGroupsQuery();
 
     const [
         fetchDetailsById,
@@ -31,9 +72,6 @@ const Permission = () => {
 
     const handleClick = (index: number, item: IPermissionGroupResponse) => {
         setItemIndex(index);
-        console.log({
-            item,
-        });
         fetchDetailsById({
             permissionGroupId: item.id,
         });
@@ -54,6 +92,16 @@ const Permission = () => {
         PermissionGroups?.data?.result?.length,
         fetchDetailsById,
     ]);
+
+    useEffect(() => {
+        fetchAllPermissionGroups({
+            isPaginationEnabled: true,
+            page: 1,
+            pageSize: 10,
+            isActive: true,
+            permissionTypes: permissionTypeState,
+        });
+    }, [fetchAllPermissionGroups, permissionTypeState]);
 
     const columnHelper = createColumnHelper<IPermissionResponse>();
 
@@ -102,6 +150,40 @@ const Permission = () => {
 
     return (
         <div className='rounded-md border border-gray-200 bg-white dark:border-gray-800 dark:bg-slate-900'>
+            <div className='flex flex-col justify-end md:justify-between gap-5 border-b border-gray-200 px-5 py-4 sm:flex-row sm:items-center dark:border-gray-700 w-full '>
+                <div>
+                    <h3 className='text-lg font-semibold text-gray-800 dark:text-white/90'>
+                        Permission Groups
+                    </h3>
+                    <p className='text-sm text-gray-500 dark:text-gray-400'>
+                        Permission groups and details
+                    </p>
+                </div>
+                <div className='flex gap-4 w-full md:w-auto items-center'>
+                    <div>Permission Types</div>
+                    <select
+                        value={permissionTypeState}
+                        onChange={(event) =>
+                            setPermissionTypeState(
+                                event.target.value as
+                                    | "NORMAL"
+                                    | "NORMAL_SETTINGS"
+                                    | "COMPANY_SETTINGS"
+                                    | "SUPER_ADMIN_SETTINGS"
+                            )
+                        }
+                        className='block w-full rounded border border-gray-200 bg-white px-4  py-1 text-left text-gray-700 focus:border-blue-300 focus:bg-white focus:outline-none'
+                    >
+                        {PermissionTypes?.map((item: IPermissionType) => {
+                            return (
+                                <option key={item.value} value={item.value}>
+                                    {item.label}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+            </div>
             <div className='grid grid-cols-12 gap-6 px-6 py-5'>
                 <div className='col-span-12 md:col-span-4 lg:col-span-3 dark:bg-slate-800'>
                     <div className='w-full mb-6 rounded-2xl border border-gray-200 p-5 lg:p-6 dark:border-gray-800'>

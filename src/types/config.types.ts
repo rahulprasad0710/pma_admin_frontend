@@ -27,6 +27,13 @@ export interface Pagination {
     keyword?: string;
 }
 
+export interface IPermissionGroupPagination extends IPaginationWithActive {
+    permissionTypes:
+        | "NORMAL"
+        | "NORMAL_SETTINGS"
+        | "COMPANY_SETTINGS"
+        | "SUPER_ADMIN_SETTINGS";
+}
 export interface IPaginationWithActive extends Pagination {
     isActive: boolean;
 }
