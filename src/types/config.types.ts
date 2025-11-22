@@ -32,7 +32,8 @@ export interface IPermissionGroupPagination extends IPaginationWithActive {
         | "NORMAL"
         | "NORMAL_SETTINGS"
         | "COMPANY_SETTINGS"
-        | "SUPER_ADMIN_SETTINGS";
+        | "SUPER_ADMIN_SETTINGS"
+        | "ALL";
 }
 export interface IPaginationWithActive extends Pagination {
     isActive: boolean;
@@ -508,6 +509,8 @@ export interface ImageResponse {
 
 export interface IFeatureDetailsResponse extends IFeatureResponse {
     featureTeamMember: IEmployeeResponse[];
+    featureTaskStatus: ITaskStatusResponse[];
+
     admin: IEmployeeResponse;
     profilePictureResponse: ImageResponse;
     internalCompany: IInternalCompanyResponse;
@@ -519,6 +522,7 @@ export interface IFeaturePayload {
     profilePicture: string;
     active: boolean;
     featureTeamMember: number[];
+    featureTaskStatus: number[];
     admin: number;
 }
 

@@ -81,6 +81,7 @@ const EmployeeModal = (props: Props) => {
         register,
         handleSubmit,
         reset,
+        setError,
         formState: { errors, isSubmitting },
     } = useForm<IFormInput>({
         defaultValues: defaultValues,
@@ -130,6 +131,7 @@ const EmployeeModal = (props: Props) => {
                     ...payload,
                 };
                 const response = await createMutation(addPayload).unwrap();
+                console.log("LOG: ~ onSubmit ~ response:", response);
                 if (response.success) {
                     toast.success("New employee added successfully");
                     handleCloseModal();
@@ -137,7 +139,23 @@ const EmployeeModal = (props: Props) => {
             }
         } catch (error) {
             console.log(error);
-            toast.error("Something Went Wrong!");
+            const errData = error?.data;
+            if (
+                errData &&
+                errData?.type &&
+                errData?.type === "VALIDATION_ERROR"
+            ) {
+                setError(
+                    "mobileNumber",
+                    {
+                        type: "manual",
+                        message: errData?.errors["mobileNumber"],
+                    },
+                    { shouldFocus: true }
+                );
+            } else {
+                toast.error("Something Went Wrong!");
+            }
         }
     };
 

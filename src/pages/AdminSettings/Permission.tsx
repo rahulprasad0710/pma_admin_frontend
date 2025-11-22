@@ -14,15 +14,11 @@ import ReactTable from "@/components/common/ReactTable";
 import Skeleton from "@/components/common/Skeleton";
 import { createColumnHelper } from "@tanstack/react-table";
 import { humanizeEnum } from "@/utils/fns";
-
-type IPermissionType = {
-    label: string;
-    value:
-        | "NORMAL"
-        | "NORMAL_SETTINGS"
-        | "COMPANY_SETTINGS"
-        | "SUPER_ADMIN_SETTINGS";
-};
+import {
+    PermissionTypes,
+    type IPermissionType,
+    type IPermissionValue,
+} from "@/enums/utils";
 
 const Permission = () => {
     const [permissionTypeState, setPermissionTypeState] = useState<
@@ -38,25 +34,6 @@ const Permission = () => {
         isActive: true,
         permissionTypes: permissionTypeState,
     });
-
-    const PermissionTypes: IPermissionType[] = [
-        {
-            label: "Normal",
-            value: "NORMAL",
-        },
-        {
-            label: "Normal Settings",
-            value: "NORMAL_SETTINGS",
-        },
-        {
-            label: "Company Settings",
-            value: "COMPANY_SETTINGS",
-        },
-        {
-            label: "Super Admin Settings",
-            value: "SUPER_ADMIN_SETTINGS",
-        },
-    ];
 
     const [
         fetchAllPermissionGroups,
@@ -165,11 +142,7 @@ const Permission = () => {
                         value={permissionTypeState}
                         onChange={(event) =>
                             setPermissionTypeState(
-                                event.target.value as
-                                    | "NORMAL"
-                                    | "NORMAL_SETTINGS"
-                                    | "COMPANY_SETTINGS"
-                                    | "SUPER_ADMIN_SETTINGS"
+                                event.target.value as IPermissionValue
                             )
                         }
                         className='block w-full rounded border border-gray-200 bg-white px-4  py-1 text-left text-gray-700 focus:border-blue-300 focus:bg-white focus:outline-none'

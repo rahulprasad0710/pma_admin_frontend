@@ -22,3 +22,32 @@ export enum UploadType {
     PRIVATE = "PRIVATE",
     PERSONAL = "PERSONAL",
 }
+
+export type IPermissionValue =
+    | "NORMAL"
+    | "NORMAL_SETTINGS"
+    | "COMPANY_SETTINGS"
+    | "SUPER_ADMIN_SETTINGS";
+
+export type IPermissionType = {
+    label: string;
+    value: IPermissionValue;
+};
+export const PermissionTypes: IPermissionType[] = [
+    {
+        label: "Normal",
+        value: "NORMAL",
+    },
+    {
+        label: "Normal Settings",
+        value: "NORMAL_SETTINGS",
+    },
+    {
+        label: "Company Settings",
+        value: "COMPANY_SETTINGS",
+    },
+    {
+        label: "Super Admin Settings",
+        value: "SUPER_ADMIN_SETTINGS",
+    },
+];
