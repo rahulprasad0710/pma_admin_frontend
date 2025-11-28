@@ -1,5 +1,5 @@
 import type {
-    IPaginationWithActive,
+    IPermissionGroupPagination,
     IPermissionGroupResponse,
     Response,
     ResponseWithPagination,
@@ -55,7 +55,7 @@ export const api = createApi({
         // ! PERMISSION-GROUP-STARTS
         getAllPermissionGroups: build.query<
             ResponseWithPagination<IPermissionGroupResponse[]>,
-            IPaginationWithActive
+            IPermissionGroupPagination
         >({
             query: ({
                 isPaginationEnabled = true,
@@ -63,6 +63,7 @@ export const api = createApi({
                 pageSize = 10,
                 keyword,
                 isActive,
+                permissionTypes,
             }) => ({
                 url: "permissions/groups",
                 method: "GET",
@@ -72,6 +73,7 @@ export const api = createApi({
                     pageSize,
                     keyword: keyword ? keyword : undefined,
                     isActive,
+                    permissionTypes,
                 },
             }),
             providesTags: (result) =>
@@ -122,6 +124,7 @@ export const api = createApi({
 export const {
     // PERMISSIONS
     useGetAllPermissionGroupsQuery,
+    useLazyGetAllPermissionGroupsQuery,
     useLazyGetPermissionGroupsDetailsByIdQuery,
     // ROLES
 } = api;

@@ -130,7 +130,7 @@ const MultiSelect = (props: Props) => {
                         <div className='flex items-center'>
                             <div
                                 className={
-                                    selectedList.find(
+                                    selectedList?.find(
                                         (selectedItem) =>
                                             selectedItem.value === item.value
                                     )
@@ -144,7 +144,7 @@ const MultiSelect = (props: Props) => {
                             <div className='ms-auto'>
                                 <span
                                     className={
-                                        selectedList.find(
+                                        selectedList?.find(
                                             (selectedItem) =>
                                                 selectedItem.value ===
                                                 item.value

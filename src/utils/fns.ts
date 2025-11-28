@@ -5,3 +5,7 @@ export function humanizeEnum(str: string | undefined) {
         .replace(/_/g, " ") // "cash on delivery"
         .replace(/\b\w/g, (c) => c.toUpperCase()); // "Cash On Delivery"
 }
+
+// function removeUnderscore(str: string): string {
+//     return str.replace(/_/g, " ");
+// }

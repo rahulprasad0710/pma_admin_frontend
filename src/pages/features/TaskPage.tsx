@@ -240,7 +240,7 @@ const TaskPage = () => {
                     <button
                         type='button'
                         onClick={handleClearFilter}
-                        className='focus:shadow-outline justify-start rounded bg-transparent px-4 py-1 font-bold text-gray-500 hover:bg-gray-100 hover:text-gray-800'
+                        className='focus:shadow-outline justify-start rounded border  bg-gray-100 dark:bg-slate-700 dark:hover:bg-slate-800 px-4 py-1 font-bold text-gray-500 dark:text-gray-50 hover:bg-gray-200 hover:text-gray-800'
                     >
                         Clear filter
                     </button>

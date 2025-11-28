@@ -18,12 +18,20 @@ const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
     const accessTokenState = localStorage.getItem("accessToken") || "";
 
     useEffect(() => {
+        console.log({
+            accessTokenState,
+            authenticateEmployee,
+        });
         if (!accessTokenState || !authenticateEmployee?.id) return;
 
-        const newSocket = io("https://workcentrik.publicvm.com", {
-            extraHeaders: {
-                Authorization: `Bearer ${accessTokenState}`,
-                secure: "",
+        // const backendUrl = "https://workcentrik.publicvm.com";
+        const backendUrl = "http://localhost:8000";
+
+        const baseServerUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
+
+        const newSocket = io(backendUrl, {
+            query: {
+                token: accessTokenState,
             },
             transports: ["websocket", "polling"],
             withCredentials: true,

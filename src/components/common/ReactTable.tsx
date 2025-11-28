@@ -77,10 +77,10 @@ const ReactTable = <T extends object>({
         <div className='overflow-hidden rounded-md border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-slate-800'>
             <div className='max-h-[700px]  overflow-y-auto overflow-x-hidden'>
                 <table className='min-w-full table-fixed align-middle text-sm'>
-                    <thead className='border-b border-gray-100 dark:border-white/[0.05]'>
+                    <thead className='border-b border-gray-100 dark:border-gray-300'>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr
-                                className='border-b-2 border-neutral-100'
+                                className='border-b-1 border-neutral-100 dark:border-gray-300'
                                 key={headerGroup.id}
                             >
                                 {headerGroup.headers.map((header) => (
@@ -121,7 +121,7 @@ const ReactTable = <T extends object>({
                               ))
                             : table.getRowModel().rows.map((row) => (
                                   <tr
-                                      className='border-b border-neutral-100 hover:bg-neutral-50'
+                                      className='border-b-1 border-neutral-100 hover:bg-neutral-50 dark:hover:bg-gray-900 '
                                       key={row.id}
                                   >
                                       {row.getVisibleCells().map((cell) => (
@@ -181,8 +181,8 @@ const ReactTable = <T extends object>({
                             onClick={() => handlePrevious()}
                             className={
                                 pagination?.currentPage === 1
-                                    ? `${btnClass} cursor-not-allowed bg-neutral-100 text-neutral-500 opacity-60`
-                                    : `${btnClass} cursor-pointer`
+                                    ? `${btnClass} cursor-not-allowed bg-neutral-100 text-neutral-500 opacity-60 dark:bg-gray-600 dark:text-gray-300  `
+                                    : `${btnClass} cursor-pointer dark:bg-gray-800 dark:text-white`
                             }
                         >
                             <ChevronLeft className='h-5 w-5' />
@@ -193,8 +193,8 @@ const ReactTable = <T extends object>({
                             disabled={!lastIndex().hasNextPage}
                             className={
                                 !lastIndex().hasNextPage
-                                    ? `${btnClass} cursor-not-allowed bg-neutral-100 text-neutral-500 opacity-60`
-                                    : `${btnClass} cursor-pointer`
+                                    ? `${btnClass} cursor-not-allowed bg-neutral-100 text-neutral-500 opacity-60 dark:bg-gray-600 dark:text-gray-300`
+                                    : `${btnClass} cursor-pointer dark:bg-gray-800 dark:text-white`
                             }
                             onClick={() => handleNext?.()}
                         >

@@ -36,6 +36,7 @@ const PermissionByRole = ({
             page: 1,
             pageSize: 20,
             isActive: true,
+            permissionTypes: "ALL",
         });
 
     const [fetchDetailsById, { data: PermissionGroupDetails }] =

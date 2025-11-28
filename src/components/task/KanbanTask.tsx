@@ -135,7 +135,7 @@ const TaskColumn = (props: TaskColumnProps) => {
             ref={(instance) => {
                 drop(instance);
             }}
-            className={`sl:py-4 rounded-lg bg-gray-50 py-2 shadow-sm xl:px-2 ${
+            className={`sl:py-4 rounded-lg bg-gray-50 py-2 shadow-sm xl:px-2 dark:bg-slate-700 ${
                 isOver ? "bg-blue-100" : ""
             } `}
         >
@@ -207,7 +207,7 @@ const TaskItem = (props: TaskItemProps) => {
             }}
         >
             <div
-                className={`mx-2 mb-4 cursor-pointer rounded-sm bg-white shadow ${
+                className={`mx-2 mb-4 cursor-pointer dark:bg-slate-800 dark:hover:bg-slate-900 rounded-sm bg-white shadow ${
                     isDragging
                         ? "opacity-50 shadow-sm shadow-green-300"
                         : "opacity-100"
@@ -220,7 +220,10 @@ const TaskItem = (props: TaskItemProps) => {
                     <div className=' flex justify-between items-baseline '>
                         <div className='flex items-center gap-2'>
                             <PriorityTag priority={task.priority} />
-                            <span className='text-md'> {task.title}</span>
+                            <span className='text-md text-slate-800 dark:text-slate-50'>
+                                {" "}
+                                {task.title}
+                            </span>
                         </div>
                         <button className='flex h-6 w-5 items-center justify-center rounded bg-gray-200'>
                             <EllipsisVertical />
@@ -232,7 +235,7 @@ const TaskItem = (props: TaskItemProps) => {
                                 borderColor: task?.taskLabel?.colorCode,
                                 borderWidth: "1px",
                             }}
-                            className='text-slate-800 px-2'
+                            className='text-slate-800 px-2 dark:text-amber-50 text-sm rounded-sm p-1 border '
                         >
                             {task?.taskLabel?.name ?? "None"}
                         </span>
@@ -241,7 +244,7 @@ const TaskItem = (props: TaskItemProps) => {
                     <div className='mt-4 flex items-center justify-between'>
                         <div className='flex items-center gap-2'>
                             <TicketCheck className='text-blue-600' />
-                            <span className='text-sm text-gray-500'>
+                            <span className='text-sm text-gray-500 dark:text-amber-50'>
                                 {task.taskNumber}
                             </span>
                         </div>

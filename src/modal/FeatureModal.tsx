@@ -25,6 +25,7 @@ import { inputFieldClass } from "@/utils/style";
 import { toast } from "react-toastify";
 import { useCreateUploadsMutation } from "@/api/hooks/useUpload";
 import { useForm } from "react-hook-form";
+import { useGetAllTaskStatusQuery } from "@api/hooks/useTaskStatus";
 import { useGetEmployeesQuery } from "@api/hooks/useEmployee";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -45,11 +46,21 @@ const FeatureModal = (props: Props) => {
     const [selectedFeatureMember, setSelectedFeatureMember] = useState<
         IMultiList[]
     >([]);
+    const [selectedFeatureTaskStatus, setSelectedFeatureTaskStatus] = useState<
+        IMultiList[]
+    >([]);
 
     const [files, setFiles] = useState<File[]>([]);
     const [oldFiles, setOldFiles] = useState<ImageResponse>();
     const { data: employeesList } = useGetEmployeesQuery({
         isActive: true,
+        isPaginationEnabled: false,
+        page: 1,
+        pageSize: 10,
+        keyword: "",
+    });
+
+    const { data: taskStatusList } = useGetAllTaskStatusQuery({
         isPaginationEnabled: false,
         page: 1,
         pageSize: 10,
@@ -115,6 +126,16 @@ const FeatureModal = (props: Props) => {
                     return temp;
                 })
             );
+
+            setSelectedFeatureTaskStatus(
+                selectedData?.featureTaskStatus?.map((taskStatus) => {
+                    const temp: IMultiList = {
+                        label: taskStatus.name,
+                        value: String(taskStatus.id),
+                    };
+                    return temp;
+                })
+            );
         }
     }, [selectedData, employeesList]);
 
@@ -134,6 +155,10 @@ const FeatureModal = (props: Props) => {
                 featureTeamMember:
                     selectedFeatureMember?.map((member) =>
                         Number(member.value)
+                    ) ?? [],
+                featureTaskStatus:
+                    selectedFeatureTaskStatus?.map((taskStatus) =>
+                        Number(taskStatus.value)
                     ) ?? [],
             };
 
@@ -321,6 +346,10 @@ const FeatureModal = (props: Props) => {
                         </div>
                     </div>
                     <div className='col-span-12'>
+                        <Label>
+                            Team Members
+                            <span className='text-error-500'>*</span>
+                        </Label>
                         <MultiSelect
                             selectedList={selectedFeatureMember}
                             setSelectList={setSelectedFeatureMember}
@@ -331,6 +360,29 @@ const FeatureModal = (props: Props) => {
                                             const payload = {
                                                 label: `${employee.firstName} ${employee.lastName}`,
                                                 value: String(employee.id),
+                                            };
+                                            return payload;
+                                        }
+                                    )) ??
+                                []
+                            }
+                        />
+                    </div>
+                    <div className='col-span-12'>
+                        <Label>
+                            Feature task status
+                            <span className='text-error-500'>*</span>
+                        </Label>
+                        <MultiSelect
+                            selectedList={selectedFeatureTaskStatus}
+                            setSelectList={setSelectedFeatureTaskStatus}
+                            list={
+                                (taskStatusList?.data &&
+                                    taskStatusList?.data?.result?.map(
+                                        (taskStatus) => {
+                                            const payload = {
+                                                label: taskStatus.name,
+                                                value: String(taskStatus.id),
                                             };
                                             return payload;
                                         }

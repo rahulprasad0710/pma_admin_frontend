@@ -1,4 +1,5 @@
 import type { ActivityAction } from "@/enums/utils";
+import { Editor, type Content } from "@tiptap/react";
 
 export interface Response<T> {
     message: string;
@@ -27,6 +28,14 @@ export interface Pagination {
     keyword?: string;
 }
 
+export interface IPermissionGroupPagination extends IPaginationWithActive {
+    permissionTypes:
+        | "NORMAL"
+        | "NORMAL_SETTINGS"
+        | "COMPANY_SETTINGS"
+        | "SUPER_ADMIN_SETTINGS"
+        | "ALL";
+}
 export interface IPaginationWithActive extends Pagination {
     isActive: boolean;
 }
@@ -106,7 +115,7 @@ export interface ITask {
 
 export interface ITaskPayload {
     title: string;
-    description: string;
+    description: string | Content | undefined;
     priority: Priority;
     assignTo: number;
     assignedBy: number;
@@ -377,6 +386,7 @@ export interface IInternalCompanyUpdatePayload extends IInternalCompanyPayload {
 export interface IAuthEmployeePayload {
     email: string;
     password: string;
+    isRememberMe: boolean;
 }
 
 export interface IRoleInfo {
@@ -501,6 +511,8 @@ export interface ImageResponse {
 
 export interface IFeatureDetailsResponse extends IFeatureResponse {
     featureTeamMember: IEmployeeResponse[];
+    featureTaskStatus: ITaskStatusResponse[];
+
     admin: IEmployeeResponse;
     profilePictureResponse: ImageResponse;
     internalCompany: IInternalCompanyResponse;
@@ -512,6 +524,7 @@ export interface IFeaturePayload {
     profilePicture: string;
     active: boolean;
     featureTeamMember: number[];
+    featureTaskStatus: number[];
     admin: number;
 }
 
