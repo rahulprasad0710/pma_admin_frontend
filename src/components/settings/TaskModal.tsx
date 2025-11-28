@@ -27,6 +27,7 @@ import { useGetEmployeesQuery } from "@/api/hooks/useEmployee";
 import { useGetLabelsQuery } from "@apiHooks/useLabel";
 import { useGetSprintsQuery } from "@/api/hooks/useSprint";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Editor, type Content } from "@tiptap/react";
 
 interface IFormInput {
     title: string;
@@ -50,7 +51,12 @@ const TaskModal = (props: Props) => {
     const [files, setFiles] = useState<File[]>([]);
     const [OldFiles, setOldFiles] = useState<IUploadFile[]>([]);
     const editorPlaceholder = `Type here...`;
-    const [editorContent, setEditorContent] = useState(editorPlaceholder);
+    const [editorContent, setEditorContent] = useState<Content | undefined>(
+        editorPlaceholder
+    );
+    const [editorInstance, setEditorInstance] = useState<Editor | undefined>(
+        undefined
+    );
     const [createUploadMutation] = useCreateUploadsMutation();
 
     const { selectedFeature, userId } =
@@ -132,10 +138,6 @@ const TaskModal = (props: Props) => {
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
-            console.log(data);
-            console.log({
-                editorContent,
-            });
             const payload: ITaskPayload = {
                 title: data.title,
                 priority: data.priority,
@@ -146,8 +148,7 @@ const TaskModal = (props: Props) => {
                 status: data.status,
                 project: Number(projectIdFromParams),
                 taskLabel: data.label,
-                description:
-                    editorContent === editorPlaceholder ? "" : editorContent,
+                description: editorContent,
                 taskUploads: [],
                 featureId: selectedFeature.features_id,
                 sprint: data.sprint,
@@ -220,13 +221,10 @@ const TaskModal = (props: Props) => {
                         Description
                     </label>
                     <div>
-                        {/* <TextEditor
-              setEditorContent={setEditorContent}
-              editorContent={editorContent}
-            /> */}
                         <TextEditor
-                            setValue={setEditorContent}
-                            value={editorContent}
+                            setEditorContent={setEditorContent}
+                            editorContent={editorContent}
+                            setEditorInstance={setEditorInstance}
                         />
                     </div>
                     {/* <textarea

@@ -56,13 +56,17 @@ export default function SignInForm() {
             const response = await createMutation({
                 email: data.email,
                 password: data.password,
+                isRememberMe: isChecked,
             }).unwrap();
             console.log("response", response);
 
             if (response?.success) {
                 toast.success("Login successfully");
                 dispatch(setAuthenticateEmployeeDetailsData(response.data));
-                localStorage.setItem("accessToken", response.data.accessToken);
+                localStorage.setItem(
+                    "accessToken",
+                    response.data.accessToken ?? ""
+                );
                 navigate("/admin/dashboard");
             }
         } catch (err) {

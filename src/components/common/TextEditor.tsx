@@ -23,18 +23,17 @@ import {
     Strikethrough,
     Undo,
 } from "lucide-react";
-import { EditorProvider, useCurrentEditor } from "@tiptap/react";
+import { EditorProvider, useCurrentEditor, type Content } from "@tiptap/react";
 
 import { Color } from "@tiptap/extension-color";
 import { Editor } from "@tiptap/react";
 import ListItem from "@tiptap/extension-list-item";
-import React from "react";
 import StarterKit from "@tiptap/starter-kit";
 import { TextStyle } from "@tiptap/extension-text-style";
 
 type Props = {
-    setEditorContent: React.Dispatch<React.SetStateAction<string>>;
-    editorContent: string;
+    setEditorContent: React.Dispatch<React.SetStateAction<Content | undefined>>;
+    editorContent: Content | undefined;
     setEditorInstance: React.Dispatch<React.SetStateAction<Editor | undefined>>;
 };
 
