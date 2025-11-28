@@ -73,7 +73,7 @@ const MultiSelectUser = (props: Props) => {
                 onClick={() => setOpenSelect(!openSelect)}
                 className={`flex min-w-[200px] ${
                     selectedList?.length > 0 ? "justify-end" : "justify-end"
-                } gap-1 rounded bg-white p-1`}
+                } gap-1 rounded bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 px-2 py-1  cursor-pointer`}
             >
                 <div className='flex -space-x-1'>
                     {list?.slice(0, 5).map((item: IMultiList) => {
@@ -84,7 +84,7 @@ const MultiSelectUser = (props: Props) => {
                             <div key={item.value}>
                                 {item?.icon ? (
                                     <button
-                                        className={`rounded-full bg-gray-200 p-1 font-semibold text-gray-700 ${
+                                        className={`rounded-full bg-gray-200 dark:bg-slate-600 p-1 font-semibold text-gray-700 ${
                                             isItemAlreadyPresent
                                                 ? "border border-gray-200 ring-2 ring-green-300"
                                                 : "border border-gray-200 hover:ring-2 hover:ring-blue-300"
@@ -100,7 +100,7 @@ const MultiSelectUser = (props: Props) => {
                                             title={item?.label}
                                             width={20}
                                             height={20}
-                                            className='flex items-center justify-center rounded-full bg-gray-200'
+                                            className='flex items-center justify-center rounded-full bg-gray-200 dark:bg-slate-700'
                                         />
                                     </button>
                                 ) : (
@@ -124,7 +124,7 @@ const MultiSelectUser = (props: Props) => {
                     })}
                 </div>
                 <div className='flex items-center justify-end gap-2 rounded-full'>
-                    <div className='bg-grey-100 cursor-pointer rounded-full border border-gray-600 p-1 text-sm font-semibold text-gray-800'>
+                    <div className='bg-grey-100 cursor-pointer rounded-full border border-gray-600 p-1 text-sm font-semibold text-gray-800 dark:text-amber-50'>
                         {selectedList?.length}/{list?.length}
                     </div>
                     {/* <button

@@ -1,5 +1,4 @@
 import type {
-    IPaginationWithActive,
     IPermissionGroupPagination,
     IPermissionGroupResponse,
     Response,
