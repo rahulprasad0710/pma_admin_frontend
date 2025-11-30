@@ -33,7 +33,7 @@ function HomePage() {
                     <p className='mx-auto mt-2 max-w-2xl text-lg tracking-tight text-slate-700'>
                         One platform to manage tasks, collaborate, track
                         progress, and deliver on time.
-                        {baseServerUrl}
+                        {/* {baseServerUrl} */}
                     </p>
                     <div className='mt-10 flex justify-center gap-x-6'>
                         <a

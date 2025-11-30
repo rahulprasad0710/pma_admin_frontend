@@ -11,7 +11,8 @@ import { setAuthenticateEmployeeDetailsData } from "@/store";
 
 // const baseServerUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
 
-const baseServerUrl = "http://localhost:8000";
+// const baseServerUrl = "http://localhost:8000";
+const baseServerUrl = "http://3.109.201.51:8000";
 
 export interface ApiErrorResponse {
     success: boolean; // false in error cases
