@@ -19,9 +19,36 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
-      - name: Pull image from docker hub
+      - name: Pull image from Docker Hub
         run: docker pull rahulshah10/pma_admin_frontend_app_2026:latest
+
       - name: Delete old container
-        run: docker rm -f pma_admin_frontend_app_2026-container
+        run: docker rm -f pma_admin_frontend_app_2026-container || true
+
       - name: Run Docker Container
         run: docker run -d -p 5173:80 --name pma_admin_frontend_app_2026-container rahulshah10/pma_admin_frontend_app_2026:latest
+
+      - name: Copy React build to /var/www/react-app and reload Nginx
+        run: |
+          TARGET_DIR="/var/www/react-app"
+          CONTAINER_NAME="pma_admin_frontend_app_2026-container"
+
+          # Create target directory if it doesn't exist
+          sudo mkdir -p "$TARGET_DIR"
+
+          # Delete existing files if any
+          if [ "$(ls -A $TARGET_DIR)" ]; then
+            echo "Deleting existing files in $TARGET_DIR..."
+            sudo rm -rf "$TARGET_DIR"/*
+          fi
+
+          # Copy files from Docker container
+          echo "Copying files from container $CONTAINER_NAME..."
+          sudo docker cp "$CONTAINER_NAME":/usr/share/nginx/html/. "$TARGET_DIR/"
+
+          # Reload Nginx
+          echo "Reloading Nginx..."
+          sudo systemctl reload nginx
+
+      - name: Clean up unused Docker images
+        run: sudo docker image prune -f

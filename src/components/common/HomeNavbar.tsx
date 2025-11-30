@@ -14,14 +14,14 @@ const HomeNavbar = () => {
                         <CompanyIcon />
                     </Link>
 
-                    <div className=' md:flex md:gap-x-6'>
+                    {/* <div className=' md:flex md:gap-x-6'>
                         <Link
                             className='inline-block rounded-md px-4 py-1 text-sm text-white bg-blue-500 hover:bg-blue-600 hover:text-white'
                             to='dashboard'
                         >
                             Admin Panel
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className='flex items-center gap-x-5 md:gap-x-8'>
