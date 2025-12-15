@@ -10,7 +10,7 @@ function HomePage() {
         <div className='bg-white-50 text-gray-800 overflow-x-hidden! dark:bg-gray-900 dark:text-gray-100'>
             <HomeNavbar />
             {/* Hero Section */}
-            <header className='flex min-h-fit flex-col items-center justify-center bg-white py-16'>
+            <header className='flex min-h-[calc(100vh-80px)] flex-col items-center justify-center bg-white py-16'>
                 <div className='mx-auto max-w-7xl px-4 pb-16 pt-20 text-center sm:px-6 lg:px-8 lg:pt-32'>
                     <h1 className='font-display mx-auto max-w-4xl text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl'>
                         Project management{/* */}{" "}
@@ -46,14 +46,12 @@ function HomePage() {
                         <a
                             className='group inline-flex items-center justify-center rounded-full px-4 py-2 text-sm text-slate-700 ring-1 ring-slate-200 hover:text-slate-900 hover:ring-slate-300 focus-visible:outline-blue-600 focus-visible:ring-slate-300 active:bg-slate-100 active:text-slate-600'
                             color='slate'
-                            href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
                         >
-                            <span className='ml-3'>Request a Demo</span>
+                            <span className='ml-3'>Github Repo</span>
                         </a>
                     </div>
                 </div>
             </header>
-            <Technology />
 
             <Feature />
             <Testimonial />
