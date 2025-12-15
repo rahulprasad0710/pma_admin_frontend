@@ -53,8 +53,17 @@ const Feature = () => {
             <h2 className='font-display mb-12 text-3xl tracking-tight text-white sm:text-4xl md:text-5xl'>
                 Everything you need to run your business.
             </h2>
-            <div className='grid grid-cols-2 gap-8'>
-                <div className='grid grid-cols-2 gap-8 rounded px-4 py-6'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+                <div className='grid-cols-1  gap-8 rounded px-4 py-6'>
+                    <div className='rounded px-0 md:px-4'>
+                        <img
+                            src={features[selectedFeature].screenshot}
+                            alt={features[selectedFeature].title}
+                            className='mx-auto rounded shadow-lg'
+                        />
+                    </div>
+                </div>
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 rounded px-4 py-6'>
                     {features.map((feature, index) => (
                         <div
                             key={index}
@@ -80,13 +89,6 @@ const Feature = () => {
                             </div>
                         </div>
                     ))}
-                </div>
-                <div className='rounded p-4'>
-                    <img
-                        src={features[selectedFeature].screenshot}
-                        alt={features[selectedFeature].title}
-                        className='mx-auto rounded shadow-lg'
-                    />
                 </div>
             </div>
         </div>

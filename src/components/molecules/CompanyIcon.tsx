@@ -1,4 +1,8 @@
-const CompanyIcon = () => {
+type CompanyIconProps = {
+    withName?: boolean;
+};
+
+const CompanyIcon = ({ withName = true }: CompanyIconProps) => {
     return (
         <div className='flex gap-4 items-center '>
             <img
@@ -15,7 +19,7 @@ const CompanyIcon = () => {
                 width={50}
                 height={50}
             />
-            <h2 className='text-3xl font-semibold text-brand-500'>PMA</h2>
+            {withName}
         </div>
     );
 };
