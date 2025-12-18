@@ -1,6 +1,7 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 
 import AddBookingPage from "@/pages/companySettings/AddBookingPage";
+import AddProduct from "@/pages/ecommerce/products/AddProduct";
 import AppLayout from "@/layout/AppLayout";
 import BookingDetailsPage from "@/pages/features/BookingDetailsPage";
 import BookingPage from "@/pages/companySettings/BookingPage";
@@ -15,6 +16,7 @@ import HomePage from "@/pages/HomePage";
 import LabelPage from "@/pages/settings/LabelPage";
 import NotFound from "@/pages/NotFound";
 import Permission from "@/pages/AdminSettings/Permission";
+import ProductPage from "@/pages/ecommerce/products/ProductPage";
 import ProjectPage from "@/pages/EventListPage";
 import Roles from "@/pages/AdminSettings/RolePage";
 import RoomPage from "@/pages/companySettings/RoomPage";
@@ -93,6 +95,46 @@ const router = createBrowserRouter([
                     {
                         path: "rooms",
                         element: <RoomPage routedFrom={undefined} />,
+                    },
+                ],
+            },
+            {
+                path: "ecommerce",
+                element: <FeatureLayout />,
+                children: [
+                    {
+                        path: "products",
+                        element: <Outlet />,
+                        children: [
+                            {
+                                path: "listings",
+                                element: <ProductPage />,
+                            },
+                            {
+                                path: "add",
+                                element: <AddProduct />,
+                            },
+                        ],
+                    },
+                    {
+                        path: "orders",
+                        element: <Outlet />,
+                        children: [
+                            {
+                                path: "listings",
+                                element: <h1>Order List</h1>,
+                            },
+                        ],
+                    },
+                    {
+                        path: "inventories",
+                        element: <Outlet />,
+                        children: [
+                            {
+                                path: "listings",
+                                element: <h1>Order List</h1>,
+                            },
+                        ],
                     },
                 ],
             },

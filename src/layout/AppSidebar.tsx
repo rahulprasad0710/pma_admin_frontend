@@ -22,6 +22,7 @@ import {
 import { Link, useLocation } from "react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import Home3Icon from "../icons/home3.svg";
 import { useAppSelector } from "@/store/reduxHook";
 import useSidebar from "@/context/useSidebar";
 
@@ -91,6 +92,30 @@ const AppSidebar: React.FC = () => {
             ],
         },
         {
+            icon: <img src={Home3Icon} className='w-6 h-6' />,
+            name: "Pretty Little Home",
+            subItems: [
+                {
+                    name: "Orders",
+                    path: "/admin/ecommerce/orders/listings",
+                    pro: false,
+                    icon: <HousePlusIcon />,
+                },
+                {
+                    name: "Products",
+                    path: "/admin/ecommerce/products/listings",
+                    pro: false,
+                    icon: <HousePlusIcon />,
+                },
+                {
+                    name: "Inventory",
+                    path: "/admin/ecommerce/inventories/listings",
+                    pro: false,
+                    icon: <HousePlusIcon />,
+                },
+            ],
+        },
+        {
             icon: <Calendar />,
             name: "Calendar",
             path: "/admin/calendar",
@@ -149,6 +174,30 @@ const AppSidebar: React.FC = () => {
                     path: "/admin/company-settings/room-types",
                     pro: false,
                     icon: <HouseIcon />,
+                },
+            ],
+        },
+        {
+            icon: <img src={Home3Icon} className='w-6 h-6' />,
+            name: "Ecommerce Settings",
+            subItems: [
+                {
+                    name: "Orders",
+                    path: "/admin/ecommerce-settings/orders",
+                    pro: false,
+                    icon: <HousePlusIcon />,
+                },
+                {
+                    name: "Products",
+                    path: "/admin/ecommerce-settings/products",
+                    pro: false,
+                    icon: <HousePlusIcon />,
+                },
+                {
+                    name: "Inventory",
+                    path: "/admin/ecommerce-settings/inventories",
+                    pro: false,
+                    icon: <HousePlusIcon />,
                 },
             ],
         },
