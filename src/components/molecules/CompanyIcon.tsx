@@ -1,25 +1,25 @@
 type CompanyIconProps = {
-    withName?: boolean;
+    width?: number;
+    height?: number;
 };
 
-const CompanyIcon = ({ withName = true }: CompanyIconProps) => {
+const CompanyIcon = ({ height = 50, width = 50 }: CompanyIconProps) => {
     return (
         <div className='flex gap-4 items-center '>
             <img
                 className='dark:hidden'
                 src='/images/logo/logo.svg'
                 alt='Logo'
-                width={50}
-                height={50}
+                width={width}
+                height={height}
             />
             <img
                 className='hidden dark:block'
                 src='/images/logo/logo-dark.svg'
                 alt='Logo'
-                width={50}
-                height={50}
+                width={width}
+                height={height}
             />
-            {withName}
         </div>
     );
 };

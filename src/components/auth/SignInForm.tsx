@@ -181,7 +181,7 @@ export default function SignInForm() {
                                         size='sm'
                                         onClick={handleSubmit(handleSubmitForm)}
                                     >
-                                        Sign in
+                                        Login
                                     </Button>
                                 </div>
                             </div>
