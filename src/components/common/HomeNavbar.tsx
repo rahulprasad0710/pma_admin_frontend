@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const HomeNavbar = () => {
     return (
         <header className='fixed left-0 right-0 top-0 z-40 min-h-[60px] border-b border-gray-200 bg-white  p-3 shadow-sm  dark:border-gray-800 dark:bg-gray-900'>
-            <nav className='relative z-50 flex justify-between'>
+            <nav className='relative z-50 flex justify-between max-w-7xl  m-auto'>
                 <div className='flex items-center gap-6 '>
                     <Link
                         aria-label='Home'

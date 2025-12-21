@@ -398,6 +398,9 @@ export interface IRoleInfo {
 export interface IAuthEmployeeResponse {
     id: number;
     email: string;
+    firstName: string;
+    lastName: string;
+    profilePictureUrl: string | null;
     type: string;
     internalCompanies: InternalCompanyInfo[];
     role: IRoleInfo;
