@@ -42,7 +42,7 @@ const AppSidebar: React.FC = () => {
     const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
     const location = useLocation();
     const authenticateEmployee = useAppSelector(
-        (state) => state.global.authenticateEmployee
+        (state) => state.auth.authenticateEmployee
     );
 
     const navItems: NavItem[] = [

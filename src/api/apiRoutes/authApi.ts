@@ -11,6 +11,7 @@ import type {
     IVerifyPayload,
     Response,
 } from "@/types/config.types";
+import { clearReduxAuth, setReduxAccessToken } from "@store/authSlice";
 
 import type { SerializedError } from "@reduxjs/toolkit";
 
@@ -45,6 +46,17 @@ export const authEndpoints = (
             body: payload,
         }),
         invalidatesTags: ["Users"],
+        async onQueryStarted(_, { queryFulfilled, dispatch }) {
+            try {
+                const { data } = await queryFulfilled;
+                dispatch(setReduxAccessToken(data?.data?.accessToken));
+            } catch (error) {
+                console.log({
+                    error,
+                });
+                dispatch(clearReduxAuth());
+            }
+        },
     }),
 
     createVerifyEmail: build.mutation<
@@ -61,6 +73,7 @@ export const authEndpoints = (
         query: () => ({
             url: `${apiConstant.route}/me`,
             method: "GET",
+            credentials: "include",
         }),
     }),
     createRefreshToken: build.mutation<Response<IAuthEmployeeResponse>, void>({

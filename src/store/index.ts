@@ -1,5 +1,4 @@
-import type { IAuthEmployeeResponse, ITask } from "../types/config.types";
-
+import type { ITask } from "../types/config.types";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -9,7 +8,6 @@ export interface initialStateTypes {
     isDataRefetchList: boolean;
     isTaskDetailsModalOpen: boolean;
     taskDetailsData: ITask | undefined;
-    authenticateEmployee: IAuthEmployeeResponse | null;
 }
 
 const initialState: initialStateTypes = {
@@ -18,7 +16,6 @@ const initialState: initialStateTypes = {
     isDataRefetchList: false,
     isTaskDetailsModalOpen: false,
     taskDetailsData: undefined,
-    authenticateEmployee: null,
 };
 
 export const globalSlice = createSlice({
@@ -43,12 +40,6 @@ export const globalSlice = createSlice({
         ) => {
             state.taskDetailsData = action.payload;
         },
-        setAuthenticateEmployeeDetailsData: (
-            state,
-            action: PayloadAction<IAuthEmployeeResponse | null>
-        ) => {
-            state.authenticateEmployee = action.payload;
-        },
     },
 });
 
@@ -58,6 +49,5 @@ export const {
     setRefetchProjectTaskList,
     setIsTaskDetailsModalOpen,
     setTaskDetailsData,
-    setAuthenticateEmployeeDetailsData,
 } = globalSlice.actions;
 export default globalSlice.reducer;
