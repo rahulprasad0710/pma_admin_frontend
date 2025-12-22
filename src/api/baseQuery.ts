@@ -17,6 +17,7 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseServerUrl = "http://localhost:8000";
 // const baseServerUrl = "http://3.109.201.51:8000";
+// const baseServerUrl = "https://workcentrik.publicvm.com";
 
 export interface ApiErrorResponse {
     success: boolean; // false in error cases

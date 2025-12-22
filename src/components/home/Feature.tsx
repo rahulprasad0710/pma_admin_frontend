@@ -1,9 +1,13 @@
 "use client";
 
+import image1 from "../../assets/screenshots/s1.png";
+import image2 from "../../assets/screenshots/s2.png";
+import image3 from "../../assets/screenshots/s3.png";
+import image4 from "../../assets/screenshots/s4.png";
 import { useState } from "react";
 
 const Feature = () => {
-    const [selectedFeature, setSelectedFeature] = useState(1);
+    const [selectedFeature, setSelectedFeature] = useState(0);
 
     const features = [
         {
@@ -13,6 +17,7 @@ const Feature = () => {
                 "Project Dashboard for real-time tracking",
                 "Project & Productivity Reports",
             ],
+            screenshot: image1,
         },
         {
             title: "Task & Workflow",
@@ -21,6 +26,7 @@ const Feature = () => {
                 "Task details with subtasks & recurring logic",
                 "Reminders via Email/In-App",
             ],
+            screenshot: image2,
         },
         {
             title: "Communication & Collaboration",
@@ -29,6 +35,7 @@ const Feature = () => {
                 "Schedule meetings easily",
                 "Activity Log: Who did what, when",
             ],
+            screenshot: image3,
         },
 
         {
@@ -38,15 +45,25 @@ const Feature = () => {
                 "Set Roles ,Access and permissions",
                 "Schedule meetings easily",
             ],
+            screenshot: image4,
         },
     ];
     return (
         <div className='bg-gradient-to-r from-blue-600 to-teal-500 py-24 text-center text-white'>
             <h2 className='font-display mb-12 text-3xl tracking-tight text-white sm:text-4xl md:text-5xl'>
-                Everything you need to run your books.
+                Everything you need to run your business.
             </h2>
-            <div className='grid grid-cols-2 gap-8'>
-                <div className='grid grid-cols-2 gap-8 rounded px-4 py-6'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+                <div className='grid-cols-1  gap-8 rounded px-4 py-6'>
+                    <div className='rounded px-0 md:px-4'>
+                        <img
+                            src={features[selectedFeature].screenshot}
+                            alt={features[selectedFeature].title}
+                            className='mx-auto rounded shadow-lg'
+                        />
+                    </div>
+                </div>
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 rounded px-4 py-6'>
                     {features.map((feature, index) => (
                         <div
                             key={index}
@@ -72,9 +89,6 @@ const Feature = () => {
                             </div>
                         </div>
                     ))}
-                </div>
-                <div className='rounded p-4'>
-                    Column Index : {selectedFeature}
                 </div>
             </div>
         </div>

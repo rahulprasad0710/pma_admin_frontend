@@ -5,7 +5,7 @@ import SignInForm from "@components/auth/SignInForm";
 export default function SignIn() {
     return (
         <>
-            <PageMeta title='PMA | Signup' description='user login page' />
+            <PageMeta title='PMA | Login' description='user login page' />
             <AuthLayout>
                 <SignInForm />
             </AuthLayout>

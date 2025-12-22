@@ -11,17 +11,22 @@ const HomeNavbar = () => {
                         to='/'
                         className='flex items-center'
                     >
-                        <CompanyIcon />
+                        <div className='flex gap-2 items-center '>
+                            <CompanyIcon />
+                            <h3 className='text-brand-500 text-2xl  font-bold font-serif '>
+                                WorkCentrik
+                            </h3>
+                        </div>
                     </Link>
 
-                    <div className=' md:flex md:gap-x-6'>
+                    {/* <div className=' md:flex md:gap-x-6'>
                         <Link
                             className='inline-block rounded-md px-4 py-1 text-sm text-white bg-brand-500 hover:bg-brand-600 hover:text-white'
                             to='/admin/dashboard'
                         >
                             Admin Panel
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className='flex items-center gap-x-5 md:gap-x-8'>

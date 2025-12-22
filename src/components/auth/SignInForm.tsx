@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Button from "../ui/button/Button";
 import Checkbox from "../form/input/Checkbox";
+import CompanyIcon from "../molecules/CompanyIcon";
 import Label from "../form/Label";
 import type { SubmitHandler } from "react-hook-form";
 import { getCustomerError } from "@/utils/customError";
@@ -89,13 +90,16 @@ export default function SignInForm() {
             </div>
             <div className='flex flex-col justify-center flex-1 w-full max-w-md mx-auto'>
                 <div>
-                    <div className='mb-5 sm:mb-8'>
-                        <h1 className='mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md'>
-                            Login
-                        </h1>
-                        <p className='text-sm text-gray-500 dark:text-gray-400'>
-                            Enter your email and password to sign in!
-                        </p>
+                    <div className='flex gap-4 items-center mb-5'>
+                        <CompanyIcon />
+                        <div>
+                            <h1 className=' font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md'>
+                                Login
+                            </h1>
+                            <p className='text-sm text-gray-500 dark:text-gray-400'>
+                                Enter your email and password to sign in!
+                            </p>
+                        </div>
                     </div>
                     <div>
                         {/* social login before */}
@@ -177,23 +181,11 @@ export default function SignInForm() {
                                         size='sm'
                                         onClick={handleSubmit(handleSubmitForm)}
                                     >
-                                        Sign in
+                                        Login
                                     </Button>
                                 </div>
                             </div>
                         </form>
-
-                        <div className='mt-5'>
-                            <p className='text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start'>
-                                Don&apos;t have an account? {""}
-                                <Link
-                                    to='/signup'
-                                    className='text-brand-500 hover:text-brand-600 dark:text-brand-400'
-                                >
-                                    Sign Up
-                                </Link>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,4 @@
+import CompanyIcon from "@/components/molecules/CompanyIcon";
 import GridShape from "../../components/common/GridShape";
 import { Link } from "react-router";
 import React from "react";
@@ -16,18 +17,21 @@ export default function AuthLayout({
                     <div className='relative flex items-center justify-center z-1'>
                         {/* <!-- ===== Common Grid Shape Start ===== --> */}
                         <GridShape />
-                        <div className='flex flex-col items-center max-w-xs'>
+                        <div className='flex flex-col items-center max-w-3xl'>
                             <Link to='/' className='block mb-4'>
-                                <img
-                                    width={231}
-                                    height={48}
-                                    src='/images/logo/auth-logo.svg'
-                                    alt='Logo'
-                                />
+                                <div className='flex gap-2 items-center '>
+                                    <CompanyIcon height={90} width={90} />
+                                    <h3 className='text-brand-50 text-3xl font-serif '>
+                                        WorkCentrik
+                                    </h3>
+                                </div>
                             </Link>
-                            <p className='text-center text-gray-400 dark:text-white/60'>
-                                Free and Open-Source Tailwind CSS Admin
-                                Dashboard Template
+                            <h2 className='text-center text-xl text-white dark:text-white/60 mb-1'>
+                                Streamline Your Projects. Empower Your Teams.
+                            </h2>
+                            <p className='text-center  text-amber-50 dark:text-white/60 mb-4'>
+                                One platform to manage tasks, collaborate, track
+                                progress, and deliver on time.
                             </p>
                         </div>
                     </div>
