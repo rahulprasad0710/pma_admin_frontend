@@ -13,9 +13,13 @@ import {
 import type { RootState } from "@store/reduxHook";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// const baseServerUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
+const nodeEnv = import.meta.env.VITE_REACT_APP_NODE_ENV;
+const serverUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
+const localUrl = "http://localhost:8000";
 
-const baseServerUrl = "http://localhost:8000";
+const baseServerUrl = nodeEnv === "development" ? localUrl : serverUrl;
+
+// const baseServerUrl = "http://localhost:8000";
 // const baseServerUrl = "http://3.109.201.51:8000";
 // const baseServerUrl = "https://workcentrik.publicvm.com";
 
