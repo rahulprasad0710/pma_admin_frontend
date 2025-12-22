@@ -19,6 +19,8 @@ const localUrl = "http://localhost:8000";
 
 const baseServerUrl = nodeEnv === "development" ? localUrl : serverUrl;
 
+// const baseServerUrl = serverUrl;
+
 // const baseServerUrl = "http://localhost:8000";
 // const baseServerUrl = "http://3.109.201.51:8000";
 // const baseServerUrl = "https://workcentrik.publicvm.com";
