@@ -16,8 +16,8 @@ const HomeNavbar = () => {
 
                     <div className=' md:flex md:gap-x-6'>
                         <Link
-                            className='inline-block rounded-md px-4 py-1 text-sm text-white bg-blue-500 hover:bg-blue-600 hover:text-white'
-                            to='dashboard'
+                            className='inline-block rounded-md px-4 py-1 text-sm text-white bg-brand-500 hover:bg-brand-600 hover:text-white'
+                            to='/admin/dashboard'
                         >
                             Admin Panel
                         </Link>
@@ -26,7 +26,7 @@ const HomeNavbar = () => {
 
                 <div className='flex items-center gap-x-5 md:gap-x-8'>
                     <Link
-                        className='group inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-1 text-sm font-semibold text-white hover:bg-blue-500 hover:text-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 active:bg-blue-800 active:text-blue-100'
+                        className='group inline-flex items-center justify-center rounded-md bg-brand-600 px-6 py-1 text-sm font-semibold text-white hover:bg-brand-500 hover:text-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 active:bg-blue-800 active:text-blue-100'
                         color='blue'
                         to='/auth/login'
                     >

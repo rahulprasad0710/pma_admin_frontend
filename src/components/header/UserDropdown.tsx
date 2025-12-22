@@ -1,6 +1,6 @@
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import { setAuthenticateEmployeeDetailsData } from "@/store";
+import { setAuthenticateEmployeeDetailsData } from "@/store/authSlice";
 import { toast } from "react-toastify";
 import { useAppSelector } from "@/store/reduxHook";
 import { useDispatch } from "react-redux";
@@ -15,7 +15,7 @@ export default function UserDropdown() {
     const dispatch = useDispatch();
 
     const authenticateEmployee = useAppSelector(
-        (state) => state.global.authenticateEmployee
+        (state) => state.auth.authenticateEmployee
     );
 
     console.log({
