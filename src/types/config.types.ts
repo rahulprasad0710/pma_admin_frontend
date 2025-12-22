@@ -395,13 +395,19 @@ export interface IRoleInfo {
     isActive: boolean;
     permissions: string[];
 }
-export interface IAuthEmployeeResponse {
+export interface IAuthEmployeeResponse extends IAuthEmployeeInfo {
+    accessToken: string;
+}
+
+export interface IAuthEmployeeInfo {
     id: number;
     email: string;
+    firstName: string;
+    lastName: string;
+    profilePictureUrl: string | null;
     type: string;
     internalCompanies: InternalCompanyInfo[];
     role: IRoleInfo;
-    accessToken?: string | undefined;
     authenticated: boolean;
 }
 

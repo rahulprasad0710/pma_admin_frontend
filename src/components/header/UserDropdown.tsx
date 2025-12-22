@@ -1,7 +1,8 @@
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import { setAuthenticateEmployeeDetailsData } from "@/store";
+import { setAuthenticateEmployeeDetailsData } from "@/store/authSlice";
 import { toast } from "react-toastify";
+import { useAppSelector } from "@/store/reduxHook";
 import { useDispatch } from "react-redux";
 import { useLazyGetUserLogoutQuery } from "@apiHooks/useAuthUser";
 import { useNavigate } from "react-router";
@@ -12,6 +13,14 @@ export default function UserDropdown() {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
+
+    const authenticateEmployee = useAppSelector(
+        (state) => state.auth.authenticateEmployee
+    );
+
+    console.log({
+        authenticateEmployee,
+    });
 
     function toggleDropdown() {
         setIsOpen(!isOpen);
@@ -25,13 +34,15 @@ export default function UserDropdown() {
         try {
             const response = await logoutUser().unwrap();
             if (response.success) {
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("persist:root");
-                dispatch(setAuthenticateEmployeeDetailsData(null));
-                navigate("/");
+                toast.warn("Logout successfully.");
             }
         } catch {
             toast.error("Failed to logout. Please try again.");
+        } finally {
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("persist:root");
+            dispatch(setAuthenticateEmployeeDetailsData(null));
+            navigate("/");
         }
     };
     return (
@@ -45,7 +56,8 @@ export default function UserDropdown() {
                 </span>
 
                 <span className='block mr-1 font-medium text-theme-sm'>
-                    Rahul Prasad
+                    {authenticateEmployee?.firstName}{" "}
+                    {authenticateEmployee?.lastName}
                 </span>
                 <svg
                     className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
@@ -74,7 +86,8 @@ export default function UserDropdown() {
             >
                 <div>
                     <span className='block font-medium text-gray-700 text-theme-sm dark:text-gray-400'>
-                        Rahul Prasad
+                        {authenticateEmployee?.firstName}{" "}
+                        {authenticateEmployee?.lastName}
                     </span>
                     <span className='mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400'>
                         raulshah2021@hotmail.com
