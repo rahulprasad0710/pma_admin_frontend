@@ -17,7 +17,7 @@ import { useLazyGetAllCustomerQuery } from "@apiHooks/useCustomer";
 import { useLazyGetBookingQuery } from "@api/hooks/hotel/useBooking";
 import { useNavigate } from "react-router-dom";
 
-const BookingPage = () => {
+const ProductListPage = () => {
     const navigate = useNavigate();
     const [keyword, setKeyword] = useState<string>("");
 
@@ -322,4 +322,4 @@ const BookingPage = () => {
     );
 };
 
-export default BookingPage;
+export default ProductListPage;

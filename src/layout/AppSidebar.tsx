@@ -52,68 +52,51 @@ const AppSidebar: React.FC = () => {
             name: "Dashboard",
             path: "/admin/dashboard",
         },
-
+        {
+            name: "Orders",
+            path: "/admin/orders/listings",
+            icon: (
+                <span className='text-lg'>
+                    <i className='fi fi-rr-shopping-cart'></i>
+                </span>
+            ),
+        },
+        {
+            name: "Task",
+            path: "/admin/ecommerce/tasks",
+            icon: <HousePlusIcon />,
+        },
         {
             icon: <CalenderIcon />,
-            name: "Bookings",
+            name: "Products",
             subItems: [
                 {
-                    name: "Add Booking",
-                    path: `/admin/features/booking/add`,
+                    name: "Add Product",
+                    path: `/admin/products/add`,
                     pro: false,
                     icon: <FilePlus2Icon />,
                     new: true,
                 },
                 {
                     name: "Listings",
-                    path: "/admin/features/booking/listings",
+                    path: "/admin/products/listings",
                     pro: false,
                     icon: <ListIcon />,
-                },
-                {
-                    name: "Rooms",
-                    path: `/admin/features/booking/rooms`,
-                    pro: false,
-                    icon: <HousePlusIcon />,
-                },
-                {
-                    name: "Tasks",
-                    path: `/admin/features/booking/tasks?assignee=${authenticateEmployee?.id}`,
-                    pro: false,
-                    icon: <KanbanSquare />,
                 },
 
                 {
                     name: "Settings",
-                    path: "/admin/features/settings",
+                    path: "/admin/products/settings",
                     pro: false,
                     icon: <CalendarCog />,
                 },
             ],
         },
+
         {
-            icon: <img src={Home3Icon} className='w-6 h-6' />,
-            name: "Pretty Little Home",
-            subItems: [
-                {
-                    name: "Orders",
-                    path: "/admin/ecommerce/orders/listings",
-                    pro: false,
-                    icon: <HousePlusIcon />,
-                },
-                {
-                    name: "Products",
-                    path: "/admin/ecommerce/products/listings",
-                    pro: false,
-                    icon: <HousePlusIcon />,
-                },
-                {
-                    name: "Inventory",
-                    path: "/admin/ecommerce/inventories/listings",
-                    pro: false,
-                    icon: <HousePlusIcon />,
-                },
-            ],
+            name: "Inventory",
+            path: "/admin/ecommerce/inventories/listings",
+            icon: <HousePlusIcon />,
         },
         {
             icon: <Calendar />,
@@ -122,18 +105,13 @@ const AppSidebar: React.FC = () => {
         },
         {
             icon: <UserCircleIcon />,
-            name: "Clients",
+            name: "Customers",
             path: "/admin/customers",
         },
         {
             icon: <UserCircleIcon />,
             name: "Events",
             path: "/admin/events",
-        },
-        {
-            icon: <UserCog />,
-            name: "Employees",
-            path: "/admin/employees",
         },
     ];
 
@@ -159,24 +137,7 @@ const AppSidebar: React.FC = () => {
                 },
             ],
         },
-        {
-            icon: <PieChartIcon />,
-            name: "Company Settings",
-            subItems: [
-                {
-                    name: "Rooms",
-                    path: "/admin/company-settings/rooms",
-                    pro: false,
-                    icon: <HousePlusIcon />,
-                },
-                {
-                    name: "Room Types",
-                    path: "/admin/company-settings/room-types",
-                    pro: false,
-                    icon: <HouseIcon />,
-                },
-            ],
-        },
+
         {
             icon: <img src={Home3Icon} className='w-6 h-6' />,
             name: "Ecommerce Settings",
