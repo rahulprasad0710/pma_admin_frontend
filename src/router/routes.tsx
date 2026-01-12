@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     },
 
     {
-        path: ":internal-company-slug",
+        path: "admin",
         element: <AppLayout />,
         children: [
             {
@@ -72,7 +72,7 @@ const router = createBrowserRouter([
                 element: <Employee routedFrom={"NORMAL"} />,
             },
             {
-                path: "features/:feature-slug",
+                path: ":feature-slug",
                 element: <FeatureLayout />,
                 children: [
                     {
