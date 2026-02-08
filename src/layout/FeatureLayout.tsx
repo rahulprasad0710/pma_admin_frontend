@@ -16,7 +16,7 @@ const FeatureLayout = () => {
     const [selectedFeature, setSelectedFeature] = useState<FeatureInfo>();
     const { ["feature-slug"]: featureSlug } = useParams<Params>();
     const authenticateEmployee = useAppSelector(
-        (state) => state.global.authenticateEmployee
+        (state) => state.auth.authenticateEmployee
     );
 
     console.log({

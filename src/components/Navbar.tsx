@@ -18,10 +18,6 @@ const Navbar = () => {
         (state) => state.global.isSidebarCollapsed
     );
 
-    console.log({
-        session,
-    });
-
     return (
         <header className='bg-white shadow-sm'>
             <nav
@@ -29,8 +25,6 @@ const Navbar = () => {
                 aria-label='Top'
             >
                 <div className='flex h-16 items-center justify-between'>
-                    {/* Left section: Logo + Nav */}
-                    {status}
                     <div className='flex items-center'>
                         <div className='flex-shrink-0'>LOGO</div>
                         <div className='hidden lg:ml-10 lg:flex lg:space-x-8'>

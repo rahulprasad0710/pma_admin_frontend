@@ -1,5 +1,11 @@
+import { clearReduxAuth, setReduxAccessToken } from "@/store/authSlice";
+import {
+    setAuthenticateEmployeeDetailsData,
+    setIsAuthenticated,
+} from "@/store/authSlice";
+
 import Spinner2 from "@/components/atoms/Spinner2";
-import { setAuthenticateEmployeeDetailsData } from "@/store";
+import { useAppSelector } from "@/store/reduxHook";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useLazyGetUserAuthenticatedQuery } from "@apiHooks/useAuthUser";
@@ -10,35 +16,45 @@ export default function AppInitializer({
     children: React.ReactNode;
 }) {
     const dispatch = useDispatch();
-    const [authenticateMe, { isFetching }] = useLazyGetUserAuthenticatedQuery();
 
+    const [authenticateMe, { isLoading }] = useLazyGetUserAuthenticatedQuery();
+    const { authenticateEmployee, isAuthenticated } = useAppSelector(
+        (state) => state.auth
+    );
     const handleLogout = () => {
         dispatch(setAuthenticateEmployeeDetailsData(null));
+        clearReduxAuth();
+    };
+
+    console.log({
+        authenticateEmployee,
+        isAuthenticated,
+        isLoading,
+    });
+
+    const handleAuthentication = async () => {
+        try {
+            const res = await authenticateMe().unwrap();
+
+            if (res?.data && res?.success) {
+                const response = res?.data;
+                const { accessToken, ...rest } = response;
+                dispatch(setAuthenticateEmployeeDetailsData(rest));
+                dispatch(setReduxAccessToken(accessToken));
+            } else {
+                handleLogout();
+            }
+        } catch (error) {
+            console.log("LOG: ~ handleAuthentication ~ error:", error);
+            handleLogout();
+        } finally {
+            dispatch(setIsAuthenticated(true));
+        }
     };
 
     useEffect(() => {
-        const accessToken = localStorage.getItem("accessToken");
-        if (accessToken) {
-            authenticateMe()
-                .unwrap()
-                .then((res) => {
-                    if (res?.data && res?.success) {
-                        dispatch(
-                            setAuthenticateEmployeeDetailsData(
-                                res?.data || null
-                            )
-                        );
-                    } else {
-                        handleLogout();
-                    }
-                })
-                .catch(() => {
-                    handleLogout();
-                });
-        } else {
-            handleLogout();
-        }
+        handleAuthentication();
     }, [dispatch, authenticateMe]);
 
-    return <>{isFetching ? <Spinner2 /> : children}</>;
+    return <>{!isLoading && isAuthenticated ? children : <Spinner2 />}</>;
 }

@@ -10,7 +10,7 @@ import Label from "../form/Label";
 import type { SubmitHandler } from "react-hook-form";
 import { getCustomerError } from "@/utils/customError";
 import { inputFieldClass } from "@/utils/style";
-import { setAuthenticateEmployeeDetailsData } from "@/store";
+import { setAuthenticateEmployeeDetailsData } from "@/store/authSlice";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@/store/reduxHook";
 import { useCreateLoginEmployeeMutation } from "@apiHooks/useAuthUser";
@@ -64,10 +64,10 @@ export default function SignInForm() {
             if (response?.success) {
                 toast.success("Login successfully");
                 dispatch(setAuthenticateEmployeeDetailsData(response.data));
-                localStorage.setItem(
-                    "accessToken",
-                    response.data.accessToken ?? ""
-                );
+                // localStorage.setItem(
+                //     "accessToken",
+                //     response.data.accessToken ?? ""
+                // );
                 navigate("/admin/dashboard");
             }
         } catch (err) {
