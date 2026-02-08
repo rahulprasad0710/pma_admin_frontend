@@ -10,6 +10,7 @@ import {
 } from "@apiHooks/useTask";
 
 import ActivityBox from "@molecules/ActivityBox";
+import { BookingSummary } from "../AISummary";
 import { Edit } from "lucide-react";
 import type { FeatureOutletContextType } from "@/types/state.types";
 import PriorityTag from "@molecules/PriorityTag";
@@ -19,6 +20,7 @@ import { format } from "date-fns";
 import { setRefetchProjectTaskList } from "@/store";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@store/reduxHook";
+import { useLazyGetBookingByIdQuery } from "@/api/hooks/hotel/useBooking";
 import { useLazyGetTaskStatusByFeatureIdQuery } from "@/api/hooks/useTaskStatus";
 import { useOutletContext } from "react-router-dom";
 
@@ -27,10 +29,17 @@ type Props = {
     setSelectedData: (data: ITask | undefined) => void;
 };
 
-type TAB_TYPES = "ACTIVITY" | "COMMENTS";
+type TAB_TYPES = "ACTIVITY" | "COMMENTS" | "AI_SUMMARY";
+
+type DESC_TYPES = "DESCRIPTION" | "AI_SUMMARY";
 
 const TaskDetails = ({ selectedData }: Props) => {
     const dispatch = useAppDispatch();
+    const [fetchById, { data: bookingData, isFetching }] =
+        useLazyGetBookingByIdQuery();
+
+    const [showDescription, setShowDescription] =
+        useState<DESC_TYPES>("DESCRIPTION");
 
     const { selectedFeature } = useOutletContext<FeatureOutletContextType>();
 
@@ -80,6 +89,25 @@ const TaskDetails = ({ selectedData }: Props) => {
         }
     };
 
+    function getNumberFromBookingId(bookingId: string): number {
+        const parts = bookingId.split("-");
+        const lastPart = parts[parts.length - 1];
+        return parseInt(lastPart, 10);
+    }
+
+    const handleShowAISummary = async () => {
+        if (!selectedData?.taskNumber) {
+            return;
+        }
+        const bookingId = getNumberFromBookingId(selectedData?.taskNumber);
+
+        const response = await fetchById({
+            payloadId: Number(bookingId),
+        });
+
+        setShowDescription("AI_SUMMARY");
+    };
+
     if (isLoading) return <div>Loading...</div>;
 
     if (data?.data === undefined || error) return <div>Task not found </div>;
@@ -104,13 +132,45 @@ const TaskDetails = ({ selectedData }: Props) => {
                     </h1>
 
                     <div className='mt-4'>
-                        <h2 className='text-lg font-medium'>Description</h2>
-                        <div
-                            className='border p-4'
-                            dangerouslySetInnerHTML={{
-                                __html: data?.data?.description as string,
-                            }}
-                        />
+                        <div className='flex gap-4'>
+                            <button
+                                onClick={() =>
+                                    setShowDescription("DESCRIPTION")
+                                }
+                                className='text-lg font-medium bg-gray-100 rounded-sm py-1 px-2 cursor-pointer'
+                            >
+                                Description
+                            </button>
+                            <button
+                                onClick={() => handleShowAISummary()}
+                                className='text-lg font-medium bg-gray-100 rounded-sm py-1 px-2 cursor-pointer'
+                            >
+                                AI Summary
+                            </button>
+                        </div>
+
+                        {showDescription === "DESCRIPTION" ? (
+                            <div
+                                className='border p-4'
+                                dangerouslySetInnerHTML={{
+                                    __html: data?.data?.description as string,
+                                }}
+                            />
+                        ) : (
+                            <div>
+                                {isFetching ? (
+                                    <div className='animate-pulse space-y-2'>
+                                        <div className='h-4 bg-gray-200 rounded w-1/3' />
+                                        <div className='h-3 bg-gray-200 rounded w-2/3' />
+                                        <div className='h-3 bg-gray-200 rounded w-1/2' />
+                                    </div>
+                                ) : (
+                                    <BookingSummary
+                                        summary={data?.data?.description}
+                                    />
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     <div className='mt-6'>
@@ -153,7 +213,7 @@ const TaskDetails = ({ selectedData }: Props) => {
                             <select
                                 onChange={(e) =>
                                     handleUpdateTaskStatus(
-                                        Number(e.target.value)
+                                        Number(e.target.value),
                                     )
                                 }
                                 value={data?.data?.task_status?.id}
@@ -167,7 +227,7 @@ const TaskDetails = ({ selectedData }: Props) => {
                                         >
                                             {status.name}
                                         </option>
-                                    )
+                                    ),
                                 )}
                             </select>
                             {isTaskUpdateLoading || isTaskStatusFetching ? (
@@ -229,14 +289,14 @@ const TaskDetails = ({ selectedData }: Props) => {
                                 Created :
                                 {format(
                                     data?.data?.addedDate ?? new Date(),
-                                    "dd-MM-yyyy hh:mm a"
+                                    "dd-MM-yyyy hh:mm a",
                                 )}
                             </div>
                             <div className='text-gray-500'>
                                 Updated :
                                 {format(
                                     data?.data?.addedDate ?? new Date(),
-                                    "dd-MM-yyyy hh:mm a"
+                                    "dd-MM-yyyy hh:mm a",
                                 )}
                             </div>
                         </div>
