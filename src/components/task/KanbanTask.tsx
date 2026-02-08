@@ -47,6 +47,10 @@ const KanbanTask = (props: IProps) => {
         { data: taskStatusList, isFetching: isTaskStatusFetching },
     ] = useLazyGetTaskStatusByFeatureIdQuery({});
 
+    console.log({
+        taskStatusList,
+    });
+
     useEffect(() => {
         if (selectedFeature) {
             fetchTaskStatus({
@@ -97,7 +101,7 @@ const KanbanTask = (props: IProps) => {
                                     statusColorCode={status.color_code}
                                 />
                             );
-                        }
+                        },
                     )}
                 </div>
             </DndProvider>
@@ -166,7 +170,7 @@ const TaskColumn = (props: TaskColumnProps) => {
                 {tasks?.length
                     ? tasks
                           ?.filter(
-                              (task) => task?.task_status?.id === taskStatusId
+                              (task) => task?.task_status?.id === taskStatusId,
                           )
                           ?.map((task: ITask) => {
                               return <TaskItem key={task.id} task={task} />;

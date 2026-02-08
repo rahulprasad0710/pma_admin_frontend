@@ -11,9 +11,9 @@ import { setAuthenticateEmployeeDetailsData } from "@/store";
 
 // const baseServerUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
 
-// const baseServerUrl = "http://localhost:8000";
+const baseServerUrl = "http://localhost:8000";
 // const baseServerUrl = "http://3.109.201.51:8000";
-const baseServerUrl = "https://workcentrik.publicvm.com";
+// const baseServerUrl = "https://workcentrik.publicvm.com";
 
 export interface ApiErrorResponse {
     success: boolean; // false in error cases
@@ -57,7 +57,7 @@ export const baseQueryWithReauth: BaseQueryFn<
                     credentials: "include",
                 },
                 api,
-                extraOptions
+                extraOptions,
             );
 
             console.log({
@@ -71,13 +71,13 @@ export const baseQueryWithReauth: BaseQueryFn<
                 const newAccessToken = refreshResultData.data.accessToken;
                 localStorage.setItem(
                     "accessToken",
-                    newAccessToken ? newAccessToken : ""
+                    newAccessToken ? newAccessToken : "",
                 );
                 api.dispatch(
                     setAuthenticateEmployeeDetailsData({
                         ...refreshResultData.data,
                         accessToken: "BOSS",
-                    })
+                    }),
                 );
 
                 result = await baseQuery(args, api, extraOptions);

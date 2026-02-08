@@ -30,7 +30,7 @@ const TaskPage = () => {
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const isDataRefetchList = useAppSelector(
-        (state) => state.global.isDataRefetchList
+        (state) => state.global.isDataRefetchList,
     );
 
     const { selectedFeature, authenticatedEmployeeId } =
@@ -62,15 +62,15 @@ const TaskPage = () => {
     const [selectedLabels, setSelectedLabels] = useState<IMultiList[]>([]);
     const [selectedLabelsIds, setSelectedLabelsIds] = useState<string[]>([]);
     const [selectedPriorityIds, setSelectedPriorityIds] = useState<string[]>(
-        []
+        [],
     );
     const [selectedPriority, setSelectedPriority] = useState<IMultiList[]>([]);
     const [isTaskModalOpen, setIsTaskModalOpen] = useState<boolean>(false);
     const [selectedAssigneeIds, setSelectedAssigneeIds] = useState<string[]>(
-        []
+        [],
     );
     const [selectedTeamMember, setSelectedTeamMember] = useState<IMultiList[]>(
-        []
+        [],
     );
 
     const statusList = labelList?.data?.result?.map((status) => {
@@ -123,7 +123,9 @@ const TaskPage = () => {
 
     const [fetchAllTasks, { data: projectTasks, isError }] =
         useLazyGetTasksQuery();
-
+    console.log({
+        projectTasks,
+    });
     const handleFetchData = () => {
         fetchAllTasks({
             isPaginationEnabled: false,
@@ -188,7 +190,7 @@ const TaskPage = () => {
         setSelectedTeamMember([]);
 
         const temp = selectedTeamMember.find(
-            (item) => item.value === String(authenticatedEmployeeId)
+            (item) => item.value === String(authenticatedEmployeeId),
         );
 
         if (temp) {
