@@ -32,10 +32,10 @@ const LayoutContent: React.FC = () => {
 
 const AppLayout: React.FC = () => {
     const authenticateEmployee = useAppSelector(
-        (state) => state.global.authenticateEmployee
+        (state) => state.auth.authenticateEmployee
     );
     console.log({
-        authenticateEmployee,
+        AppLayout: authenticateEmployee,
     });
 
     return (

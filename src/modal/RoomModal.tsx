@@ -38,7 +38,7 @@ interface IFormInput {
 const RoomModal = (props: Props) => {
     const { selectedData, handleCloseModal } = props;
     const authenticatedEmployee = useAppSelector(
-        (state) => state.global.authenticateEmployee
+        (state) => state.auth.authenticateEmployee
     );
     const { data: roomTypeList, isFetching } = useGetRoomTypesQuery({
         isPaginationEnabled: false,

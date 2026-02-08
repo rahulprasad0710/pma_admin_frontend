@@ -4,16 +4,26 @@ import type {
     FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
 import type { IAuthEmployeeResponse, Response } from "../types/config.types";
+import {
+    clearReduxAuth,
+    setAuthenticateEmployeeDetailsData,
+    setReduxAccessToken,
+} from "@/store/authSlice";
 
+import type { RootState } from "@store/reduxHook";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getAuthToken } from "@/utils/apiFn";
-import { setAuthenticateEmployeeDetailsData } from "@/store";
 
-// const baseServerUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
+const nodeEnv = import.meta.env.VITE_REACT_APP_NODE_ENV;
+const serverUrl = import.meta.env.VITE_API_BASE_SERVER_URL;
+const localUrl = "http://localhost:8000";
 
-const baseServerUrl = "http://localhost:8000";
+// const baseServerUrl = nodeEnv === "development" ? localUrl : serverUrl;
+
+// const baseServerUrl = serverUrl;
+
+// const baseServerUrl = "http://localhost:8000";
 // const baseServerUrl = "http://3.109.201.51:8000";
-// const baseServerUrl = "https://workcentrik.publicvm.com";
+const baseServerUrl = "https://workcentrik.publicvm.com";
 
 export interface ApiErrorResponse {
     success: boolean; // false in error cases
@@ -27,11 +37,9 @@ export interface ApiErrorResponse {
 // 1. Normal baseQuery
 const baseQuery = fetchBaseQuery({
     baseUrl: `${baseServerUrl}/api/`,
-    prepareHeaders: async (headers) => {
-        const { accessToken } = await getAuthToken();
-        if (accessToken) {
-            headers.set("authorization", `Bearer ${accessToken}`);
-        }
+    prepareHeaders: async (headers, { getState }) => {
+        const token = (getState() as RootState).auth.accessToken;
+        headers.set("authorization", `Bearer ${token}`);
         return headers;
     },
     credentials: "include",
@@ -60,29 +68,26 @@ export const baseQueryWithReauth: BaseQueryFn<
                 extraOptions,
             );
 
-            console.log({
-                refreshResult,
-            });
-            const refreshResultData =
-                refreshResult.data as Response<IAuthEmployeeResponse>;
+            api.dispatch(clearReduxAuth());
 
-            if (refreshResultData) {
-                // Save new token in state
-                const newAccessToken = refreshResultData.data.accessToken;
-                localStorage.setItem(
-                    "accessToken",
-                    newAccessToken ? newAccessToken : "",
-                );
+            const refreshResultResponse =
+                refreshResult.data as Response<IAuthEmployeeResponse>;
+            const { data } = refreshResultResponse;
+            if (refreshResultResponse) {
+                const { accessToken, ...rest } = data;
+                api.dispatch(setReduxAccessToken(accessToken));
+
                 api.dispatch(
                     setAuthenticateEmployeeDetailsData({
-                        ...refreshResultData.data,
-                        accessToken: "BOSS",
+                        ...rest,
                     }),
                 );
 
                 result = await baseQuery(args, api, extraOptions);
             } else {
                 // Refresh failed → logout user
+                api.dispatch(setReduxAccessToken(null));
+
                 api.dispatch(setAuthenticateEmployeeDetailsData(null));
             }
         }

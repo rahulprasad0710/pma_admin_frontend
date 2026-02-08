@@ -9,7 +9,7 @@ const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const authenticateEmployee = useAppSelector(
-        (state) => state.global.authenticateEmployee
+        (state) => state.auth.authenticateEmployee
     );
 
     const [socket, setSocket] = useState<Socket | null>(null);
